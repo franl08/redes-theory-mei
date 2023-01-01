@@ -50,4 +50,4 @@
   - Ou seja, o tráfego é enviado a cada $20ms$,
 - Adiciona um cabeçalho da camada de aplicação a cada *chunk*;
 - Encapsula o *chunk* e o cabeçalho em UDP (ou segmentos TCP);
-  
+- A aplicação irá enviar segumentos para o *socket* a cada $20ms$ durante o *talkspurt*.
