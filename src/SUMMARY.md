@@ -7,3 +7,6 @@
 - [Multicast II](./chapter_5.md)
 - [Multimedia Networking I](./chapter_6.md)
 - [Multimedia Networking II](./chapter_7.md)
+- [Signaling Protocols (SIP - Session Initiation Protocol)](./chapter_8.md)
+- [Protocolos de Transporte RTP/RTCP](./chapter_9.md)
+- [Protocolos de Transporte - Desenvolvimentos Recentes](./chapter_10.md)
