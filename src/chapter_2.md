@@ -113,7 +113,7 @@ Devemos efetuar o estudo com base nos piores casos disponíveis:
 ### *Client-Server*
 
 - **Transmissão do Servidor**: deverá enviar de forma sequencial $N$ cópias do ficheiro.
-  - Tempo para enviar 1 cópia: $\frac{1}{u_{s}}$;
+  - Tempo para enviar 1 cópia: $\frac{F}{u_{s}}$;
   - Tempo para enviar $N$ cópias: $\frac{NF}{u_{s}}$.
 - **Cliente**: Cada cliente deve fazer *download* de uma cópia do ficheiro.
   - $d_{min}$: menor taxa de *download* dos clientes;
