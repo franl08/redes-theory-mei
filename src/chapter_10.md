@@ -62,9 +62,9 @@ Basicamente, quando comparado ao TCP, tem como objetivo melhorar o desempenho e 
 
 ### *4-way handshake*
 
-![image Exemplo1](images/4way_handshake1.png)
+![image Exemplo1](images/4way_handshake_1.png)
 
-![image Exemplo2](images/4way_handshake2.png)
+![image Exemplo2](images/4way_handshake_2.png)
 
 ### *Multistreaming* SCTP
 

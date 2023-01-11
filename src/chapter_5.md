@@ -83,7 +83,7 @@
 ### *Shared Trees Protocols*
 
 - Uma árvore singular é utilizada por todas as fontes do grupo de *multicast*;
-- Um *router* que se pretenda juntar ao grupo de *multicast* mão precisa de especificar a fonte do grupo ao qual se pretende juntar. Envia uma mensagem em que especifica apenas o grupo ao próximo *upstream router*.
+- Um *router* que se pretenda juntar ao grupo de *multicast* não precisa de especificar a fonte do grupo ao qual se pretende juntar. Envia uma mensagem em que especifica apenas o grupo ao próximo *upstream router*.
 - **Vantagens**:
   - Necessários menos recursos;
   - Melhor para um grande número de fontes.
@@ -99,7 +99,7 @@
 
 ### Determinação do *Upstream Router*
 
-- Os protocolos de *routing* precisam de determinar qual será a próxima interface de *upstram* para o grupo de *multicast* - Algoritmo RPF (*Reverse Path Forwarding*);
+- Os protocolos de *routing* precisam de determinar qual será a próxima interface de *upstream* para o grupo de *multicast* - Algoritmo RPF (*Reverse Path Forwarding*);
 - *Router* utiliza a interface de *upstream*;
   - Como interface de saída para pacotes de controlo (p.e. *join*, *leave*, *prune messages*, ...);
   - Como interfaces de entrada para dados *multicast*.
