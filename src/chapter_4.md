@@ -45,8 +45,6 @@
   - Enviar uma **única** cópia dos dados para um grupo de clientes identificados pelo endereço de *multicast*.
 - Os *routers* deverão reencaminhar os pacotes e, quando necessário, duplicá-los.
 
-![image Multicast](images/multicast.png)
-
 ### Como fazer a gestão dos participantes do grupo *multicast*?
 
 - *Apps*/*Hosts* deverão utilizar *Multicast Group Membership Discovery Protocols* (em IPv4 é o IGMP) de forma a informar a rede do seu desejo para receber dados (enviando uma mensagem ao *router* de *multicast*);
