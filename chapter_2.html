@@ -1,0 +1,322 @@
+<!DOCTYPE HTML>
+<html lang="pt" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Camada Aplicacional - Teóricas de ESR</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="chapter_1.html"><strong aria-hidden="true">1.</strong> Introdução</a></li><li class="chapter-item expanded "><a href="chapter_2.html" class="active"><strong aria-hidden="true">2.</strong> Camada Aplicacional</a></li><li class="chapter-item expanded "><a href="chapter_3.html"><strong aria-hidden="true">3.</strong> Distribuição de Ficheiros em P2P e Streaming</a></li><li class="chapter-item expanded "><a href="chapter_4.html"><strong aria-hidden="true">4.</strong> Programação com Sockets e Multicast I</a></li><li class="chapter-item expanded "><a href="chapter_5.html"><strong aria-hidden="true">5.</strong> Multicast II</a></li><li class="chapter-item expanded "><a href="chapter_6.html"><strong aria-hidden="true">6.</strong> Multimedia Networking I</a></li><li class="chapter-item expanded "><a href="chapter_7.html"><strong aria-hidden="true">7.</strong> Multimedia Networking II</a></li><li class="chapter-item expanded "><a href="chapter_8.html"><strong aria-hidden="true">8.</strong> Signaling Protocols (SIP - Session Initiation Protocol)</a></li><li class="chapter-item expanded "><a href="chapter_9.html"><strong aria-hidden="true">9.</strong> Protocolos de Transporte RTP/RTCP</a></li><li class="chapter-item expanded "><a href="chapter_10.html"><strong aria-hidden="true">10.</strong> Protocolos de Transporte - Desenvolvimentos Recentes</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Teóricas de ESR</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="camada-aplicacional"><a class="header" href="#camada-aplicacional">Camada Aplicacional</a></h1>
+<h2 id="camada-aplicacional-1"><a class="header" href="#camada-aplicacional-1">Camada Aplicacional</a></h2>
+<ul>
+<li>Apesar da rede da <em>Internet</em> ter sido criada para a simples troca de documentos, hoje em dia, as aplicações presentes na <em>Internet</em> são de todos os tipos, podendo gerar uma quantidade de tráfego muito distinta entre elas.</li>
+<li>No entanto, a criação de uma <em>app</em> deve ser feita com a preocupação &quot;exclusiva&quot; que esta seja capaz de correr nos <em>end systems</em>, ignorando por completo os passos intermédios da <em>app</em> na rede.</li>
+</ul>
+<h3 id="end-to-end-principle"><a class="header" href="#end-to-end-principle"><em>End-to-End Principle</em></a></h3>
+<p>Quem desenvolve aplicações não tem de se preocupar com a rede e quem trata da rede não tem de se preocupar com as <em>apps</em>.</p>
+<h4 id="nota"><a class="header" href="#nota">NOTA:</a></h4>
+<p>Hoje em dia, este processo não é bem estrito...</p>
+<p>No fundo, tem de existir um pouco de preocupação mútua em ambos os lados da moeda...</p>
+<p>Por exemplo, as operadoras de rede analisam o tráfego dos seus clientes, enquanto que os <em>devs</em> têm de ter conhecimento acerca dos protocolos de transporte disponíveis na rede.</p>
+<h3 id="arquitetura-de-aplicações"><a class="header" href="#arquitetura-de-aplicações">Arquitetura de Aplicações</a></h3>
+<p>Em rede, as aplicações podem possuir diferentes arquiteturas. Por exemplo:</p>
+<ol>
+<li><em>Client-Server</em>;</li>
+<li><em>Peer-to-Peer</em> (P2P).</li>
+</ol>
+<h4 id="arquitetura-client-server"><a class="header" href="#arquitetura-client-server">Arquitetura <em>Client-Server</em></a></h4>
+<p><strong>Servidor:</strong></p>
+<ul>
+<li>Sempre <em>online</em>;</li>
+<li>Endereço de IP permanente;</li>
+<li>Utiliza <em>data centers</em> para permitir a escalabilidade.</li>
+</ul>
+<p><strong>Clientes:</strong></p>
+<ul>
+<li>Comunicam com o servidor;</li>
+<li>Podem conectar e desconectar-se à vontade;</li>
+<li>Podem ter endereços de IP dinâmicos;</li>
+<li>Não comunicam diretamente entre si.</li>
+</ul>
+<h4 id="arquitetura-p2p"><a class="header" href="#arquitetura-p2p">Arquitetura P2P</a></h4>
+<ul>
+<li>Não têm um servidor sempre <em>online</em>;</li>
+<li>Os <em>end-systems</em> comunicam diretamente entre si;</li>
+<li>Um <em>peer</em> fornece/consome serviços a/de outros <em>peers</em>;</li>
+<li><strong>Auto-escalável</strong>: novos <em>peers</em> fornecem novos serviços e trazem novos pedidos;</li>
+<li>Um <em>peer</em> é, simultaneamente, cliente e servidor.
+<ul>
+<li>Tem processos tanto de cliente, como de servidor.</li>
+</ul>
+</li>
+<li><em>Peers</em> podem (des)conectar-se à vontade e trocam de endereços IP.
+<ul>
+<li>Isto causa uma gestão complexa.</li>
+</ul>
+</li>
+</ul>
+<h3 id="comunicação-de-processos"><a class="header" href="#comunicação-de-processos">Comunicação de Processos</a></h3>
+<p>Um processo é um programa que se encontra a correr num dado <em>host</em>. Processos em <em>hosts</em> diferentes comunicam através da troca de mensagens.</p>
+<p><strong>Processo do Cliente</strong>: processo que inicia a comunicação.</p>
+<p><strong>Processo do Servidor</strong>: processo que espera até ser contactado.</p>
+<h4 id="sockets"><a class="header" href="#sockets"><em>Sockets</em></a></h4>
+<p>Os processos enviam e recebem mensagens através dos seus <em>sockets</em> que são análogos a uma porta.</p>
+<h4 id="endereçamento-de-processos"><a class="header" href="#endereçamento-de-processos">Endereçamento de Processos</a></h4>
+<ul>
+<li>De forma a receber mensagens, um processo deverá conter um ID.
+<ul>
+<li>O ID inclui tanto o endereço IP como o número da porta associada ao processo no <em>host</em>.</li>
+</ul>
+</li>
+</ul>
+<p>\[ IPv4/IPv6 + Porta \]</p>
+<ul>
+<li>Porta do <code>HTTP Server</code>: 80;</li>
+<li>Porta do <code>Mail Server</code>: 25.</li>
+</ul>
+<h3 id="protocolo-da-camada-aplicacional"><a class="header" href="#protocolo-da-camada-aplicacional">Protocolo da Camada Aplicacional</a></h3>
+<p>Define:</p>
+<ul>
+<li>Tipo das mensagens trocadas;</li>
+<li><em>Syntax</em> das mensagens;</li>
+<li>Semântica das mensagens;</li>
+<li>Regras relativas ao quando e como os processos devem receber/responder às mensagens.</li>
+</ul>
+<h3 id="como-decidir-qual-o-serviço-de-transporte-a-utilizar"><a class="header" href="#como-decidir-qual-o-serviço-de-transporte-a-utilizar">Como decidir qual o serviço de transporte a utilizar?</a></h3>
+<p>Depende dos requisitos da aplicação em questão, devendo ter os seguintes <strong>fatores em conta</strong>:</p>
+<ul>
+<li>Integridade dos dados;
+<ul>
+<li>A <em>app</em> é capaz de tolerar faltas?</li>
+</ul>
+</li>
+<li><em>Timing</em>;
+<ul>
+<li>Podemos ter <em>delay</em>?</li>
+</ul>
+</li>
+<li>Largura de Banda;
+<ul>
+<li>Há um valor mínimo necessário?</li>
+</ul>
+</li>
+<li>Segurança;
+<ul>
+<li>Precisa-se de assegurar encriptação, integridade, etc...?</li>
+</ul>
+</li>
+</ul>
+<p>De notar que apesar da maioria dos sistemas terem mais do que uma interface ativa, o <code>TCP</code> só tira partido de 1, pelo que <em>apps</em> mais recentes tendem a seguir outros protocolos de comunicação.</p>
+<p><img src="images/commonapps_reqs.png" alt="image Requisitos de Apps Comuns" /></p>
+<p><img src="images/apps_protocols.png" alt="image Protocolos de Apps Comuns" /></p>
+<h3 id="segurança-em-tcp"><a class="header" href="#segurança-em-tcp">Segurança em TCP</a></h3>
+<p>De forma a providenciar segurança em TCP., deve-se correr o TLS (<em>Transport Layer Security</em>) que irá encriptar as conexões, providenciar integridade de dados e fornecer um sistema com autenticação <em>end-to-end</em>.</p>
+<h2 id="tempo-de-distribuição-de-ficheiros"><a class="header" href="#tempo-de-distribuição-de-ficheiros">Tempo de Distribuição de Ficheiros</a></h2>
+<p>Pretendemos comparar as diferentes arquiteturas, tendo por base o tempo necessário para distribuir um ficheiro \( F \) por \( N \) clientes.</p>
+<p>Devemos efetuar o estudo com base nos piores casos disponíveis:</p>
+<h3 id="client-server"><a class="header" href="#client-server"><em>Client-Server</em></a></h3>
+<ul>
+<li><strong>Transmissão do Servidor</strong>: deverá enviar de forma sequencial \( N \) cópias do ficheiro.
+<ul>
+<li>Tempo para enviar 1 cópia: \( \frac{F}{u_{s}} \);</li>
+<li>Tempo para enviar \( N \) cópias: \( \frac{NF}{u_{s}} \).</li>
+</ul>
+</li>
+<li><strong>Cliente</strong>: Cada cliente deve fazer <em>download</em> de uma cópia do ficheiro.
+<ul>
+<li>\( d_{min} \): menor taxa de <em>download</em> dos clientes;</li>
+<li>Tempo: \( \frac{F}{d_{min}} \)</li>
+</ul>
+</li>
+</ul>
+<p>\[ D_{c-s} \geq max{\frac{NF}{u_s}, \frac{F}{d_{min}}} \]</p>
+<p>Ou seja, aumenta linearmente em \( N \).</p>
+<h3 id="peer-to-peer-p2p"><a class="header" href="#peer-to-peer-p2p"><em>Peer-to-Peer</em> (P2P)</a></h3>
+<ul>
+<li><strong>Transmissão do Servidor</strong>: deverá dar <em>upload</em> de, pelo menos, uma cópia.
+<ul>
+<li>Tempo para enviar uma cópia: \( \frac{F}{u_s} \)
+<strong>Cliente</strong>: Cada cliente deve fazer <em>download</em> de uma cópia do ficheiro.</li>
+<li>\( d_{min} \): menor taxa de <em>download</em> dos clientes;</li>
+<li>Tempo: \( \frac{F}{d_{min}} \)</li>
+</ul>
+</li>
+<li><strong>Clientes</strong>: Como um agregado devem fazer o <em>download</em> de \( NF \) <em>bits</em>.
+<ul>
+<li>O <em>upload rate</em> máximo é de \( u_s + \sum{u_i} \)</li>
+</ul>
+</li>
+</ul>
+<p>\[ D_{P2P} \geq {\frac{F}{u_s}, \frac{F}{d_{min}},\frac{NF}{u_s+\sum{u_i}}} \]</p>
+<p>Ou seja, apesar de \( NF \) aumentar linearmente em \( N \), o somatŕoio também o fará, visto que cada <em>peer</em> tratá a sua capacidade de servidor.</p>
+<p><img src="images/p2pvscs.png" alt="image P2P vs Client-Server" /></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="chapter_1.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="chapter_3.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="chapter_1.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="chapter_3.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

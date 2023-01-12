@@ -1,0 +1,1969 @@
+<!DOCTYPE HTML>
+<html lang="pt" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Teóricas de ESR</title>
+        <meta name="robots" content="noindex" />
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="chapter_1.html"><strong aria-hidden="true">1.</strong> Introdução</a></li><li class="chapter-item expanded "><a href="chapter_2.html"><strong aria-hidden="true">2.</strong> Camada Aplicacional</a></li><li class="chapter-item expanded "><a href="chapter_3.html"><strong aria-hidden="true">3.</strong> Distribuição de Ficheiros em P2P e Streaming</a></li><li class="chapter-item expanded "><a href="chapter_4.html"><strong aria-hidden="true">4.</strong> Programação com Sockets e Multicast I</a></li><li class="chapter-item expanded "><a href="chapter_5.html"><strong aria-hidden="true">5.</strong> Multicast II</a></li><li class="chapter-item expanded "><a href="chapter_6.html"><strong aria-hidden="true">6.</strong> Multimedia Networking I</a></li><li class="chapter-item expanded "><a href="chapter_7.html"><strong aria-hidden="true">7.</strong> Multimedia Networking II</a></li><li class="chapter-item expanded "><a href="chapter_8.html"><strong aria-hidden="true">8.</strong> Signaling Protocols (SIP - Session Initiation Protocol)</a></li><li class="chapter-item expanded "><a href="chapter_9.html"><strong aria-hidden="true">9.</strong> Protocolos de Transporte RTP/RTCP</a></li><li class="chapter-item expanded "><a href="chapter_10.html"><strong aria-hidden="true">10.</strong> Protocolos de Transporte - Desenvolvimentos Recentes</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Teóricas de ESR</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="introdução"><a class="header" href="#introdução">Introdução</a></h1>
+<h2 id="avaliação"><a class="header" href="#avaliação">Avaliação</a></h2>
+<ul>
+<li>Teste (50%)
+<ul>
+<li>Mínimo de 8 valores;</li>
+</ul>
+</li>
+<li>Trabalhos Práticos (50%)
+<ul>
+<li>2 trabalhos para realizar maioritariamente nas aulas;</li>
+<li>Grupos de 3 elementos;</li>
+<li>Mínimo de 10 valores.</li>
+</ul>
+</li>
+</ul>
+<p>As aulas práticas têm presenças obrigatórias (\( \frac{2}{3} \) das aulas).</p>
+<p>Faltas injustificadas às aulas PL descontam 0.5 valores.</p>
+<p>Existe um controlo de faltas nas teóricas, no entanto, este não tem um efeito direito nas notas (só para dar aquela décima extra)</p>
+<h2 id="material"><a class="header" href="#material">Material</a></h2>
+<ul>
+<li>Livro do <em>Kurose</em>;</li>
+<li><em>Slides</em> das aulas teóricas.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="camada-aplicacional"><a class="header" href="#camada-aplicacional">Camada Aplicacional</a></h1>
+<h2 id="camada-aplicacional-1"><a class="header" href="#camada-aplicacional-1">Camada Aplicacional</a></h2>
+<ul>
+<li>Apesar da rede da <em>Internet</em> ter sido criada para a simples troca de documentos, hoje em dia, as aplicações presentes na <em>Internet</em> são de todos os tipos, podendo gerar uma quantidade de tráfego muito distinta entre elas.</li>
+<li>No entanto, a criação de uma <em>app</em> deve ser feita com a preocupação &quot;exclusiva&quot; que esta seja capaz de correr nos <em>end systems</em>, ignorando por completo os passos intermédios da <em>app</em> na rede.</li>
+</ul>
+<h3 id="end-to-end-principle"><a class="header" href="#end-to-end-principle"><em>End-to-End Principle</em></a></h3>
+<p>Quem desenvolve aplicações não tem de se preocupar com a rede e quem trata da rede não tem de se preocupar com as <em>apps</em>.</p>
+<h4 id="nota"><a class="header" href="#nota">NOTA:</a></h4>
+<p>Hoje em dia, este processo não é bem estrito...</p>
+<p>No fundo, tem de existir um pouco de preocupação mútua em ambos os lados da moeda...</p>
+<p>Por exemplo, as operadoras de rede analisam o tráfego dos seus clientes, enquanto que os <em>devs</em> têm de ter conhecimento acerca dos protocolos de transporte disponíveis na rede.</p>
+<h3 id="arquitetura-de-aplicações"><a class="header" href="#arquitetura-de-aplicações">Arquitetura de Aplicações</a></h3>
+<p>Em rede, as aplicações podem possuir diferentes arquiteturas. Por exemplo:</p>
+<ol>
+<li><em>Client-Server</em>;</li>
+<li><em>Peer-to-Peer</em> (P2P).</li>
+</ol>
+<h4 id="arquitetura-client-server"><a class="header" href="#arquitetura-client-server">Arquitetura <em>Client-Server</em></a></h4>
+<p><strong>Servidor:</strong></p>
+<ul>
+<li>Sempre <em>online</em>;</li>
+<li>Endereço de IP permanente;</li>
+<li>Utiliza <em>data centers</em> para permitir a escalabilidade.</li>
+</ul>
+<p><strong>Clientes:</strong></p>
+<ul>
+<li>Comunicam com o servidor;</li>
+<li>Podem conectar e desconectar-se à vontade;</li>
+<li>Podem ter endereços de IP dinâmicos;</li>
+<li>Não comunicam diretamente entre si.</li>
+</ul>
+<h4 id="arquitetura-p2p"><a class="header" href="#arquitetura-p2p">Arquitetura P2P</a></h4>
+<ul>
+<li>Não têm um servidor sempre <em>online</em>;</li>
+<li>Os <em>end-systems</em> comunicam diretamente entre si;</li>
+<li>Um <em>peer</em> fornece/consome serviços a/de outros <em>peers</em>;</li>
+<li><strong>Auto-escalável</strong>: novos <em>peers</em> fornecem novos serviços e trazem novos pedidos;</li>
+<li>Um <em>peer</em> é, simultaneamente, cliente e servidor.
+<ul>
+<li>Tem processos tanto de cliente, como de servidor.</li>
+</ul>
+</li>
+<li><em>Peers</em> podem (des)conectar-se à vontade e trocam de endereços IP.
+<ul>
+<li>Isto causa uma gestão complexa.</li>
+</ul>
+</li>
+</ul>
+<h3 id="comunicação-de-processos"><a class="header" href="#comunicação-de-processos">Comunicação de Processos</a></h3>
+<p>Um processo é um programa que se encontra a correr num dado <em>host</em>. Processos em <em>hosts</em> diferentes comunicam através da troca de mensagens.</p>
+<p><strong>Processo do Cliente</strong>: processo que inicia a comunicação.</p>
+<p><strong>Processo do Servidor</strong>: processo que espera até ser contactado.</p>
+<h4 id="sockets"><a class="header" href="#sockets"><em>Sockets</em></a></h4>
+<p>Os processos enviam e recebem mensagens através dos seus <em>sockets</em> que são análogos a uma porta.</p>
+<h4 id="endereçamento-de-processos"><a class="header" href="#endereçamento-de-processos">Endereçamento de Processos</a></h4>
+<ul>
+<li>De forma a receber mensagens, um processo deverá conter um ID.
+<ul>
+<li>O ID inclui tanto o endereço IP como o número da porta associada ao processo no <em>host</em>.</li>
+</ul>
+</li>
+</ul>
+<p>\[ IPv4/IPv6 + Porta \]</p>
+<ul>
+<li>Porta do <code>HTTP Server</code>: 80;</li>
+<li>Porta do <code>Mail Server</code>: 25.</li>
+</ul>
+<h3 id="protocolo-da-camada-aplicacional"><a class="header" href="#protocolo-da-camada-aplicacional">Protocolo da Camada Aplicacional</a></h3>
+<p>Define:</p>
+<ul>
+<li>Tipo das mensagens trocadas;</li>
+<li><em>Syntax</em> das mensagens;</li>
+<li>Semântica das mensagens;</li>
+<li>Regras relativas ao quando e como os processos devem receber/responder às mensagens.</li>
+</ul>
+<h3 id="como-decidir-qual-o-serviço-de-transporte-a-utilizar"><a class="header" href="#como-decidir-qual-o-serviço-de-transporte-a-utilizar">Como decidir qual o serviço de transporte a utilizar?</a></h3>
+<p>Depende dos requisitos da aplicação em questão, devendo ter os seguintes <strong>fatores em conta</strong>:</p>
+<ul>
+<li>Integridade dos dados;
+<ul>
+<li>A <em>app</em> é capaz de tolerar faltas?</li>
+</ul>
+</li>
+<li><em>Timing</em>;
+<ul>
+<li>Podemos ter <em>delay</em>?</li>
+</ul>
+</li>
+<li>Largura de Banda;
+<ul>
+<li>Há um valor mínimo necessário?</li>
+</ul>
+</li>
+<li>Segurança;
+<ul>
+<li>Precisa-se de assegurar encriptação, integridade, etc...?</li>
+</ul>
+</li>
+</ul>
+<p>De notar que apesar da maioria dos sistemas terem mais do que uma interface ativa, o <code>TCP</code> só tira partido de 1, pelo que <em>apps</em> mais recentes tendem a seguir outros protocolos de comunicação.</p>
+<p><img src="images/commonapps_reqs.png" alt="image Requisitos de Apps Comuns" /></p>
+<p><img src="images/apps_protocols.png" alt="image Protocolos de Apps Comuns" /></p>
+<h3 id="segurança-em-tcp"><a class="header" href="#segurança-em-tcp">Segurança em TCP</a></h3>
+<p>De forma a providenciar segurança em TCP., deve-se correr o TLS (<em>Transport Layer Security</em>) que irá encriptar as conexões, providenciar integridade de dados e fornecer um sistema com autenticação <em>end-to-end</em>.</p>
+<h2 id="tempo-de-distribuição-de-ficheiros"><a class="header" href="#tempo-de-distribuição-de-ficheiros">Tempo de Distribuição de Ficheiros</a></h2>
+<p>Pretendemos comparar as diferentes arquiteturas, tendo por base o tempo necessário para distribuir um ficheiro \( F \) por \( N \) clientes.</p>
+<p>Devemos efetuar o estudo com base nos piores casos disponíveis:</p>
+<h3 id="client-server"><a class="header" href="#client-server"><em>Client-Server</em></a></h3>
+<ul>
+<li><strong>Transmissão do Servidor</strong>: deverá enviar de forma sequencial \( N \) cópias do ficheiro.
+<ul>
+<li>Tempo para enviar 1 cópia: \( \frac{F}{u_{s}} \);</li>
+<li>Tempo para enviar \( N \) cópias: \( \frac{NF}{u_{s}} \).</li>
+</ul>
+</li>
+<li><strong>Cliente</strong>: Cada cliente deve fazer <em>download</em> de uma cópia do ficheiro.
+<ul>
+<li>\( d_{min} \): menor taxa de <em>download</em> dos clientes;</li>
+<li>Tempo: \( \frac{F}{d_{min}} \)</li>
+</ul>
+</li>
+</ul>
+<p>\[ D_{c-s} \geq max{\frac{NF}{u_s}, \frac{F}{d_{min}}} \]</p>
+<p>Ou seja, aumenta linearmente em \( N \).</p>
+<h3 id="peer-to-peer-p2p"><a class="header" href="#peer-to-peer-p2p"><em>Peer-to-Peer</em> (P2P)</a></h3>
+<ul>
+<li><strong>Transmissão do Servidor</strong>: deverá dar <em>upload</em> de, pelo menos, uma cópia.
+<ul>
+<li>Tempo para enviar uma cópia: \( \frac{F}{u_s} \)
+<strong>Cliente</strong>: Cada cliente deve fazer <em>download</em> de uma cópia do ficheiro.</li>
+<li>\( d_{min} \): menor taxa de <em>download</em> dos clientes;</li>
+<li>Tempo: \( \frac{F}{d_{min}} \)</li>
+</ul>
+</li>
+<li><strong>Clientes</strong>: Como um agregado devem fazer o <em>download</em> de \( NF \) <em>bits</em>.
+<ul>
+<li>O <em>upload rate</em> máximo é de \( u_s + \sum{u_i} \)</li>
+</ul>
+</li>
+</ul>
+<p>\[ D_{P2P} \geq {\frac{F}{u_s}, \frac{F}{d_{min}},\frac{NF}{u_s+\sum{u_i}}} \]</p>
+<p>Ou seja, apesar de \( NF \) aumentar linearmente em \( N \), o somatŕoio também o fará, visto que cada <em>peer</em> tratá a sua capacidade de servidor.</p>
+<p><img src="images/p2pvscs.png" alt="image P2P vs Client-Server" /></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="distribuição-de-ficheiros-em-p2p-e-streaming"><a class="header" href="#distribuição-de-ficheiros-em-p2p-e-streaming">Distribuição de Ficheiros em P2P e Streaming</a></h1>
+<table><thead><tr><th><strong>Característica</strong></th><th><strong>Client-Server</strong></th><th><strong>P2P</strong></th></tr></thead><tbody>
+<tr><td><strong>Foco</strong></td><td>Troca de Dados</td><td>Conetividade, Comunicação</td></tr>
+<tr><td><strong>Transmissão de dados</strong></td><td>Servidor providencia todos  os serviços</td><td>Peers são server e cliente</td></tr>
+<tr><td><strong>Custo</strong></td><td>Mais caro para manter</td><td>Mais barato</td></tr>
+<tr><td><strong>Gestão</strong></td><td>Mais simples</td><td>Mais complexa</td></tr>
+<tr><td><strong>Performance</strong></td><td>Mais robusta, pode ser expandida</td><td>Performance pode diminuir para um grande número de nós</td></tr>
+<tr><td><strong>Distribuição de Largura de Banda</strong></td><td>Depende, sobretudo, da conexão do servidor à Internet</td><td>Não é pré-alocada. Depende dos recursos de cada par</td></tr>
+<tr><td><strong>Segurança</strong></td><td>Servidor único, mais seguro</td><td>Segurança depende de cada peer em si</td></tr>
+</tbody></table>
+<h2 id="distribuição-de-ficheiros-em-p2p-bittorrent"><a class="header" href="#distribuição-de-ficheiros-em-p2p-bittorrent">Distribuição de Ficheiros em P2P: BitTorrent</a></h2>
+<ul>
+<li>Ficheiro dividido em pedaços (<em>chunks</em>) de 256<em>kbs</em>;</li>
+<li>Os <em>peers</em> no <em>torrent</em> enviam e recebem pedaçõs do ficheiro.
+<ul>
+<li>Cada um ds peers mantém uma lista do seu top 4 de outros <em>peers</em> para receber novos <em>chunks</em>.
+<ul>
+<li>Esta lista é atualizada a cada 10 segundos.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Dá-se o nome de <em>tracker</em> ao servidor de indexação.</li>
+<li><em>Peer</em> a juntar-se ao <em>torrent</em>:
+<ul>
+<li>Não tem <em>chunks</em>, mas irá acumulá-los ao logo do tempo com os outros <em>peers</em>;</li>
+</ul>
+</li>
+<li>Enquanto faz o <em>download</em>, o <em>peer</em> irá dar <em>upload</em> de <em>chunks</em> para outros <em>peers</em>.</li>
+<li>O <em>peer</em> poderá provocar alterações num outro <em>peer</em> com quem efetue trocas;</li>
+<li><em><strong>churn</strong></em>: medida de desempenho \( \rightarrow \) quantidade de utilizadores que abandonam o produto sem ter o ficheiro completo;</li>
+<li>Quando um <em>peer</em> já tem o ficheiro completo poderá sair da rede ou manter-se no <em>torrent</em>.</li>
+</ul>
+<h3 id="pedir-e-enviar-chunks"><a class="header" href="#pedir-e-enviar-chunks">Pedir e Enviar <em>chunks</em></a></h3>
+<h4 id="pedir"><a class="header" href="#pedir">Pedir</a></h4>
+<ul>
+<li>Num dado intervalo de tempo, diferentes <em>peers</em> têm diferentes conjuntos de <em>chunks</em>;</li>
+<li>Periódicamente, o cliente irá pedir aos <em>peers</em> a lista com os <em>chunks</em> que este contém.</li>
+<li>O cliente irá pedir <em>chunks</em> em falta so clientes, geralmente, não o primeiro.</li>
+</ul>
+<h4 id="envio-de-chunks-tit-for-tat"><a class="header" href="#envio-de-chunks-tit-for-tat">Envio de <em>chunks</em>: <em>tit-for-tat</em></a></h4>
+<ul>
+<li>Cliente que pediu os <em>chunks</em> irá enviar <em>chunks</em> aos 4 <em>peers</em> que lhe estão a enviar com uma maior taxa;
+<ul>
+<li>Os restantes estão a ser <em>choked</em> por esse cliente (não recebem <em>chunks</em> desse cliente).</li>
+</ul>
+</li>
+<li>A cada 30 segundos esse cliente irá escolher de forma aleatória outro <em>peer</em> e começará a enviar-lhe  <em>chunks</em>.
+<ul>
+<li>A este processo diz-se que o cliente está a fazer <em>optimistically unchoke</em> do <em>peer</em>;</li>
+<li>Este <em>peer</em> poderá juntar-se ao top 4 do cliente.</li>
+</ul>
+</li>
+</ul>
+<h2 id="streaming-de-vídeo-e-cdns"><a class="header" href="#streaming-de-vídeo-e-cdns"><em>Streaming</em> de Vídeo e CDNs</a></h2>
+<p>Grande parte do tráfego da rede é, hoje em dia, devido a vídeo. Assim, surgem diversos desafios:</p>
+<p><strong>Escala</strong>: Como é que podemos alcançar cerca de 2B de clientes?</p>
+<ul>
+<li>Um único servidor gigante não iria funcionar.</li>
+</ul>
+<p><strong>Heterogeniedade</strong>: </p>
+<ul>
+<li>Utilizadores diferentes podem ter capacidades diferentes (cabelada <em>vs mobile</em>, boa largura de banda <em>vs</em> baixa largura de banda).</li>
+</ul>
+<p>Para estes problemas existe a solução de tornar estas aplicações distribuídas e colocá-las ao nível da infraestutura da camada <em>web</em>.</p>
+<h3 id="multimédia-vídeo"><a class="header" href="#multimédia-vídeo">Multimédia: Vídeo</a></h3>
+<ul>
+<li>Imagem digitais: <em>array</em> de píxeis;
+<ul>
+<li>Cada píxel é representado por <em>bits</em>.</li>
+</ul>
+</li>
+<li>Deve utilizar-se redundância com e entre imagens para diminuir o número de <em>bits</em> utilizados para codificar a imagem.
+<ul>
+<li><strong>Espacial</strong> (na imagem);</li>
+<li><strong>Temporal</strong> (entre imagens).</li>
+</ul>
+</li>
+<li><strong>CBR</strong> (<em>constant bit rate</em>):
+<ul>
+<li><em>Encoding rate</em> do vídeo fixo;</li>
+</ul>
+</li>
+<li><strong>VBR</strong> (<em>variable bit rate</em>):
+<ul>
+<li><em>Encoding rate</em> do vídeo altera de acordo com a redundância espacial e temporal.</li>
+</ul>
+</li>
+</ul>
+<h3 id="streaming-de-um-vídeo-armazenado"><a class="header" href="#streaming-de-um-vídeo-armazenado"><em>Streaming</em> de um vídeo armazenado</a></h3>
+<p><img src="images/streaming_stored_video.png" alt="image Cenário" /></p>
+<p><strong>Principais Desafios</strong>:</p>
+<ul>
+<li>Largura de banda entre o cliente e o servidor irá variar consoante os níveis de congestão na rede;</li>
+<li>Perda de pacotes, <em>delay</em> devido à congestão irá provocar um <em>delay</em> no vídeo ou uma má qaulidade de vídeo.</li>
+</ul>
+<h3 id="streaming-de-multimédia-dash"><a class="header" href="#streaming-de-multimédia-dash"><em>Streaming</em> de multimédia: DASH</a></h3>
+<ul>
+<li><strong>DASH</strong>: <em>Dynamic, Adaptive Streaming over HTTP</em></li>
+<li><strong>Servidor</strong>:
+<ul>
+<li>Divide o ficheiro do vídeo em múltiplos <em>chunks</em>;</li>
+<li>Cada <em>chunk</em> é armazenado e codificado com <em>rates</em> diferentes;</li>
+<li>Ficheiro de <em>MANIFEST</em>: providencia URLs para <em>chunks</em> diferentes.</li>
+</ul>
+</li>
+<li><strong>Cliente</strong>:
+<ul>
+<li>Periódicamente mede a largura de banda entre o servidor e o cliente;</li>
+<li>Consulta o <em>MANIFEST</em> e pede um <em>chunk</em> de cada vez.
+<ul>
+<li>Escolhe o máximo de <em>coding rate</em> sustentável na largura de banda atual;</li>
+<li>Pode escolher diferentes <em>coding rates</em> em diferentes períodos de tempo (depende da largura de banda naquele momento),</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Coloca a &quot;inteligência&quot; no cliente, visto que este determina:
+<ul>
+<li><strong>quando</strong> pedir <em>chunks</em> (de forma a evitar <em>starvation</em> ou <em>overflow</em>);</li>
+<li><strong>qual o <em>encoding rate</em></strong> a pedir (melhor qualidade quando tem maior largura de banda disponível);</li>
+<li><strong>onde</strong> pedir o <em>chunk</em> (pode pedir ao servidor URL que se encontra mais perto do cliente ou tem uma grande largura de banda disponível).</li>
+</ul>
+</li>
+</ul>
+<h3 id="content-distribution-networks-cdns"><a class="header" href="#content-distribution-networks-cdns"><em>Content Distribution Networks</em> (CDNs)</a></h3>
+<ul>
+<li><strong>Desafio</strong>: Como efetuar a <em>stream</em> de conteúdo (selecionado de milhões de vídeos) para centenas de milhares de utilizadores em simultâneo=
+<ul>
+<li><strong>Opção 1</strong>: Mega Servidor largo e singular.
+<ul>
+<li>Ponto único de falha;</li>
+<li>Ponto de congestão de rede;</li>
+<li>Grande distância até aos clientes;</li>
+<li>Múltiplas cópias do vídeo enviadas através do <em>link</em> de saída;</li>
+<li>Basicamente, esta solução <strong>não é escalável</strong>.</li>
+</ul>
+</li>
+<li><strong>Opção 2</strong>: Armazena/Serve múltiplas cópias de vídeos em múltiplos sítios distribuídos geograficamente.
+<ul>
+<li><em>enter deep</em>: coloca os servidores CDN em múltiplas redes de acesso.
+<ul>
+<li>próxima dos utilizadores (tentativa de <em>single hop</em>);</li>
+<li>utilizada pelo <em>Akamai</em>.</li>
+</ul>
+</li>
+<li><em>bring home</em>: menor número de grandes <em>clusters</em> em POPs próximos das redes de acesso.
+<ul>
+<li>utilizada pelo <em>Limelight</em>.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Guarda cópias do conteúdo em nodos CDN;</li>
+<li>Utilizador pede o conteúdo ao CDN.
+<ul>
+<li>Direcionado para a cópia mais próxima, recebe o conteúdo dessa fonte;</li>
+<li>Pode escolher diferentes cópias se a rede estiver congestionada.</li>
+</ul>
+</li>
+<li><strong>Desafios</strong>: lidar com a rede congestionada.
+<ul>
+<li>A qual nodo CDN se deve ir buscar o conteúdo?</li>
+<li>Qual o comportamento do <em>viewer</em> em casos de congestão?</li>
+<li>O que colocar em cada nodo CDN? A que <em>rate</em>?</li>
+</ul>
+</li>
+</ul>
+<h4 id="caso-de-estudo-netflix"><a class="header" href="#caso-de-estudo-netflix">Caso de Estudo: Netflix</a></h4>
+<p><img src="images/netflix.png" alt="image Netflix" /></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="programação-com-sockets-e-multicast-i"><a class="header" href="#programação-com-sockets-e-multicast-i">Programação com Sockets e Multicast I</a></h1>
+<h2 id="programação-com-sockets"><a class="header" href="#programação-com-sockets">Programação com <em>Sockets</em></a></h2>
+<ul>
+<li><strong>O que é um <em>socket</em>?</strong>
+<ul>
+<li>&quot;Porta&quot; entre o processo da aplicação e o protocolo de transporte <em>end-to-end</em>.</li>
+</ul>
+</li>
+<li>Existem dois tipos de <em>sockets</em> para 2 tipos de serviços de transporte:
+<ul>
+<li><strong>UDP</strong>: datagramas não confiáveis;</li>
+<li><strong>TCP</strong>: confiável, <em>bytes</em> orientados às <em>streams</em>.</li>
+</ul>
+</li>
+</ul>
+<h3 id="com-udp"><a class="header" href="#com-udp">Com UDP</a></h3>
+<ul>
+<li>Não à &quot;conexão&quot; entre cliente e servidor;
+<ul>
+<li>Não existe o &quot;<em>handshaking</em>&quot; antes de se inicar o envio de dados;</li>
+<li>Emissor insere o endereço IP de destino e a porta, de forma explícita, em cada <em>packet</em>;</li>
+<li>Recetor extrai o endereço IP e a porta do emissor a partir de <em>packet</em> recebido.</li>
+</ul>
+</li>
+<li>Dados transmitidos podem ser perdidos ou recebidos fora da ordem correta.</li>
+</ul>
+<h3 id="com-tcp"><a class="header" href="#com-tcp">Com TCP</a></h3>
+<ul>
+<li>Cliente deverá entrar em contacto com o servidor;
+<ul>
+<li>O processo do servidor deve ser o primeiro a correr;</li>
+<li>O servidor deve criar um <em>socket</em> que dará as boas-vindas ao contacto do cliente.</li>
+</ul>
+</li>
+<li>Cliente contacta o servidor:
+<ul>
+<li>Cria um <em>socket</em> TCP especificando o endereço IP e o número da porta do processo do servidor;
+<ul>
+<li>Quando cria este <em>socket</em> estabelece conexão ao servidor TCP.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Quando o servidor é contactado pelo cliente, cria um novo <em>socket</em> para cada processo do servidor de forma a comunicar com aquele cliente em particular.
+<ul>
+<li>Permite que o servidor comunique com múltiplos clientes;</li>
+<li>Os números das portas da origem são usadas para distinguir clientes.</li>
+</ul>
+</li>
+</ul>
+<h2 id="multicast"><a class="header" href="#multicast"><em>Multicast</em></a></h2>
+<ul>
+<li>
+<p>Existe uma série de aplicações que são orientadas a grupos.</p>
+<ul>
+<li>Uma solução para isto seria estabelecer múltiplas conexões <em>multicast</em>.
+<ul>
+<li>A origem irá manter uma lista de recetores;</li>
+<li>A origem terá de enviar múltiplas cópias idênticas dos mesmos dados;</li>
+<li>Solução custosa em termos de recursos.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>A solução para estes problemas passa por enviar 1 única vez o ficheiro e, algures na rede, de preferência o mais perto possível do cliente, os dados serão multiplixados.</p>
+<ul>
+<li>Ocupar-se-á uma menor largura de banda;</li>
+<li>Não serão realizados envios desnecessários por parte do servidor de origem;</li>
+<li>Não é necessário manter em registo todos os endereços IPs dos recetores, utilizando um único endereço especial para realizar esta operação.</li>
+</ul>
+</li>
+<li>
+<p>Assim, o grande <strong>objetivo</strong> do <em>Multicast</em> é:</p>
+<ul>
+<li>Enviar uma <strong>única</strong> cópia dos dados para um grupo de clientes identificados pelo endereço de <em>multicast</em>.</li>
+</ul>
+</li>
+<li>
+<p>Os <em>routers</em> deverão reencaminhar os pacotes e, quando necessário, duplicá-los.</p>
+</li>
+</ul>
+<h3 id="como-fazer-a-gestão-dos-participantes-do-grupo-multicast"><a class="header" href="#como-fazer-a-gestão-dos-participantes-do-grupo-multicast">Como fazer a gestão dos participantes do grupo <em>multicast</em>?</a></h3>
+<ul>
+<li><em>Apps</em>/<em>Hosts</em> deverão utilizar <em>Multicast Group Membership Discovery Protocols</em> (em IPv4 é o IGMP) de forma a informar a rede do seu desejo para receber dados (enviando uma mensagem ao <em>router</em> de <em>multicast</em>);</li>
+<li>Os <em>routers</em> de <em>multicast</em> deverão comunicar entre eles utilizando protocolos de <em>routing multicast</em>;
+<ul>
+<li>Os protocolos de <em>routing</em> precisão de contruir uma árvore de distribuição de <em>multicast</em>;</li>
+<li>O tráfego chega a todos os recetores que se juntaram ao grupo;</li>
+<li>O número de cópias idênticas é minimizado.</li>
+</ul>
+</li>
+<li>Os nós de <em>overlay multicast</em> poderão ter de propagar o interesse na rede para informar os nós participantes do trajeto que os dados terão de percorrer e estes poderem iniciar/parar a difusão de dados.
+<ul>
+<li>De tempos a tempos, o <em>router</em> de acesso questiona se ainda há interesse.</li>
+</ul>
+</li>
+</ul>
+<p><strong>NOTA</strong></p>
+<ul>
+<li>Mutias vezes, o pedido IGMP nem chega ao servidor fonte, pois, o <em>router</em> que vai receber o pedido já tem o conteúdo pretendido.</li>
+</ul>
+<h3 id="multicast-group-discovery-protocols"><a class="header" href="#multicast-group-discovery-protocols"><em>Multicast Group Discovery Protocols</em></a></h3>
+<ul>
+<li>
+<p>Utilizado por <em>apps</em>/<em>hosts</em> para informar os <em>routers</em> na LAN do endereço <em>multicast</em> do grupo ao qual se pretendem juntar.</p>
+<ul>
+<li>Em IPv4 \( \rightarrow \) <em>Internet Group Management Protocol</em> (IGMP);</li>
+<li>Em IPv6 \( \rightarrow \) <em>Multicast Listener Discovery</em>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Operação Básica de IGMP</strong></p>
+<ul>
+<li><em>Host</em> pretende juntar-se a um novo grupo de <em>multicast</em> \( \rightarrow \) envia uma mensagem não solicitada de <em>IGMP Report</em> para o grupo;</li>
+<li>O <em>router</em> local utiliza um protocolo de <em>routing</em> de <em>multicast</em> para juntar-se ao grupo de <em>multicast</em>;</li>
+<li>De forma periódica, um <em>querier router</em> envia mensagens <em>IGMP Query</em> em <em>broadcast</em> para verificar em que grupos os <em>local hosts</em> se encontram;</li>
+<li><em>Hosts</em> respondem às mensagens enviando mensagens de <em>IGMP Report</em> a indicar em que grupo se encontram;</li>
+<li>Se um <em>router</em> não receber uma mensagem de <em>Report</em> para um dado grupo durante um período de tempo, assume que não existem mais membros desse grupo na LAN e remove-se do grupo de <em>multicast</em>.</li>
+</ul>
+</li>
+<li>
+<p>Envio de <em>Queries</em></p>
+<ul>
+<li>IGMPv1 dependo da decisão de qual <em>router</em> será o <em>querier</em> do protocolo de <em>routing</em> de <em>multicast</em>;</li>
+<li>IGMPv2 introduz um processo de eleição do <em>querier</em>,</li>
+</ul>
+</li>
+<li>
+<p>Respostas a <em>Queries</em></p>
+<ul>
+<li>Para evitar respostas simultâneas:
+<ul>
+<li>Cada <em>host</em> inicia um <em>timer</em> aleatórios para cada grupo do qual é membro;</li>
+<li>Quando o <em>timer</em> terminar, envia um <em>IGMP report</em>;
+<ul>
+<li>Se, entretanto, receber outra mensagem no mesmo grupo:
+<ul>
+<li>Cancela o <em>timer</em>.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Melhoria da latência do membros do grupo;</p>
+<ul>
+<li>O IGMPv2 introduz uma <em>Leave Group Message</em>.</li>
+</ul>
+</li>
+<li>
+<p>Filtragem dos endereços de origem.</p>
+<ul>
+<li>IGMPv3 introduz mensagens de <em>report</em> que permitem a inclusão ou exclusão da lista de origens para grupos de <em>multicast</em> do qual é membro.</li>
+</ul>
+</li>
+</ul>
+<h3 id="flood--prune"><a class="header" href="#flood--prune"><em>Flood &amp; Prune</em></a></h3>
+<ul>
+<li>Abordagem para a construção da árvore <em>multicast</em>.</li>
+</ul>
+<ol>
+<li>Faz <em>flood</em> do conteúdo por toda a rede;</li>
+<li>Começa a cortar os &quot;ramos&quot; que não têm ouvintes.
+<ol>
+<li>Vai à informação do estado dos diversos nós da rede e altera a interface de saída \( x \) para inativa;</li>
+<li>Quando é feito o <em>join</em> do nó, essa informação é atualizada.</li>
+</ol>
+</li>
+</ol>
+<ul>
+<li>
+<p>Nesta abordagem, o nó de <em>overlay multicast</em> tem de manter a seguinte informação:</p>
+<ul>
+<li>IP da origem;</li>
+<li>Estado das interfaces de rede.</li>
+</ul>
+</li>
+<li>
+<p>É eficiente por se tratar de uma árvore muito dinâmica.</p>
+<ul>
+<li>Se, por exemplo, se usar <em>Dijsktra</em> ter-se-ia de recalcular todas as rotas a cada alteração.</li>
+</ul>
+</li>
+</ul>
+<h3 id="outra-estratégia"><a class="header" href="#outra-estratégia">Outra Estratégia</a></h3>
+<ul>
+<li>Construir a árvore a partir do recetor.
+<ul>
+<li>Vai informando que se quer juntar e constrói a árvore;
+<ul>
+<li>Vai criando estado.</li>
+</ul>
+</li>
+<li>Em casos de vários caminhos possíveis será o <em>router unicast</em> a esolher o percurso que irá percorrer.  </li>
+</ul>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="multicast-ii"><a class="header" href="#multicast-ii">Multicast II</a></h1>
+<h2 id="multicast-1"><a class="header" href="#multicast-1"><em>Multicast</em></a></h2>
+<h3 id="alternativas-de-design"><a class="header" href="#alternativas-de-design">Alternativas de <em>Design</em></a></h3>
+<ul>
+<li><em>Hosts</em> que se pretendam juntar a um grupo podem:
+<ul>
+<li>Receber dados enviados para o grupo de alguma fonte (especifica apenas o grupo de <em>multicast</em>) - <em>Any Source Multicast</em> (ASM);</li>
+<li>Apenas receber dados de uma fonte específica (\( grupo\ de\ multicast + origem \)) - <em>Source-Specific Multicast</em>.</li>
+</ul>
+</li>
+<li><strong>Protocolos de <em>Routing</em> de <em>Multicast</em></strong>
+<ol>
+<li>Um <em>router</em> conhece os membros dos grupos dos seus <em>hosts</em> conectados diretamente;</li>
+<li>Troca informação com os restantes <em>routers</em>;</li>
+<li>Junta-se ou separa-se das árvores de um grupo de <em>multicast</em>.</li>
+</ol>
+</li>
+<li><strong>Como construir uma árvore de distribuição de um grupo de <em>multicast</em> para múltiplos recetores?</strong>
+<ul>
+<li><em>opt-in protocols</em>: Árvores são construídas a partir dos recetores. Não assume que existam clientes interessados à partida;</li>
+<li><em>opt-out protocols</em>: O servidor toma a iniciativa de enviar para a rede sem querer saber se existem clientes interessados.
+<ul>
+<li>Inunda a rede (<em>routers</em> guardam estado);</li>
+<li>Corta os ramos que não lhe interessam.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Tipos de Árvores:</strong>
+<ul>
+<li><em>source-based trees</em>: Existe 1 árvore de entrega independente por fonte;</li>
+<li><em>shared tree</em>: Todas as fontes enviam para a mesma árvore.</li>
+</ul>
+</li>
+</ul>
+<h3 id="protocolos-de-routing"><a class="header" href="#protocolos-de-routing">Protocolos de <em>Routing</em></a></h3>
+<ol>
+<li>PIM-SM (<em>Product Independent Multicast Sparse Mode</em>);</li>
+<li>PIM-DM (<em>Product Independent Multicast Dense Mode</em>);</li>
+<li>DVMRP (<em>Distance Vector Multicast Routing Protocol</em>);</li>
+<li>MOSPF (<em>Multicast OSPF</em>);</li>
+<li>...</li>
+</ol>
+<p><strong>NOTA:</strong></p>
+<ul>
+<li>Ambientes densos permitem que se consuma uma maior quantidade de recursos (maior disponibilidade e clientes mais próximos);</li>
+<li>Ambientes dispersos não permitem grandes consumos de recursos.</li>
+</ul>
+<h3 id="opt-in"><a class="header" href="#opt-in"><em>Opt-In</em></a></h3>
+<ul>
+<li>Árvore é construída a partir do ponto que se pretende ligar ao grupo.
+<ul>
+<li>Anuncia o interesse pela rota até ao <em>router</em> de acesso;
+<ul>
+<li>Em redes <em>overlay</em>, este processo pode ser bastante difícil.</li>
+</ul>
+</li>
+<li><em>Routers</em> vão guardando estado de forma a saberem a rota, sem terem de a descobrir a cada iteração.</li>
+</ul>
+</li>
+<li>Podem utilizar-se <em>souce-based trees</em> ou <em>shared-trees</em>.</li>
+</ul>
+<p><strong>Início do Processo</strong>
+<img src="images/opt_in_example.png" alt="image Opt-in" /></p>
+<p><strong>Resultado</strong>
+<img src="images/opt_in_example2.png" alt="image Opt-in Result" /></p>
+<h3 id="opt-out"><a class="header" href="#opt-out"><em>Opt-Out</em></a></h3>
+<ul>
+<li>Utiliza <strong>apenas</strong> <em>source-based trees</em>;</li>
+<li>Inicialmente, os dados são enviados para todos os <em>hosts</em> da rede;
+<ul>
+<li>Efetua um <em>flood</em> controlado.</li>
+</ul>
+</li>
+<li>Envia <em>prune messages</em> para remover da árvore de <em>multicast</em>.</li>
+</ul>
+<p><img src="images/opt_out_example.png" alt="image Opt-Out" /></p>
+<h3 id="source-based-trees"><a class="header" href="#source-based-trees"><em>Source-based Trees</em></a></h3>
+<ul>
+<li>Constrói uma árvore separada para cada fonte que envie dados;
+<ul>
+<li>A árvore será aquela que terá os melhores caminhos do cliente para o servidor;</li>
+<li>No entanto, não existem garantias que será a melhor do servidor para o cliente.</li>
+</ul>
+</li>
+<li>Cada árvore tem raíz num <em>router</em> adjacente ao emissor;</li>
+<li>Os <em>routers</em> que se pretendam juntar ao grupo de <em>multicast</em> devem especificar a <em><strong>source</strong></em> e o <strong>grupo</strong> de dados <em>multicast</em> que pretendem recebem. Para isso, envia uma mensagem indicadora dessa informação ao próximo <em>upstream router</em>;</li>
+<li><strong>Vantagens</strong>:
+<ul>
+<li>Caminhos para os dados <em>multicast</em> são muito eficientes.</li>
+</ul>
+</li>
+<li><strong>Desvantagens</strong>:
+<ul>
+<li>Problemas de escalabilidade para um grande número de fontes.</li>
+</ul>
+</li>
+<li>SSM (<em>Source Specified Multicast</em>) requer a utilização de <em>source-based trees</em>.</li>
+</ul>
+<h4 id="exemplo"><a class="header" href="#exemplo">Exemplo</a></h4>
+<ul>
+<li>A árvore tem raíz em \( R3 \).
+<ul>
+<li>\( S2 \) envia dados diretamente à raíz da árvore;</li>
+</ul>
+</li>
+<li>Nova fonte em \( S1 \)
+<ul>
+<li>Implica que seja contruída uma nova árvore a partir de \( R1 \).</li>
+</ul>
+</li>
+</ul>
+<p><img src="images/sourcebased_example.png" alt="image Opt-Out" /></p>
+<h3 id="shared-trees-protocols"><a class="header" href="#shared-trees-protocols"><em>Shared Trees Protocols</em></a></h3>
+<ul>
+<li>Uma árvore singular é utilizada por todas as fontes do grupo de <em>multicast</em>;</li>
+<li>Um <em>router</em> que se pretenda juntar ao grupo de <em>multicast</em> não precisa de especificar a fonte do grupo ao qual se pretende juntar. Envia uma mensagem em que especifica apenas o grupo ao próximo <em>upstream router</em>.</li>
+<li><strong>Vantagens</strong>:
+<ul>
+<li>Necessários menos recursos;</li>
+<li>Melhor para um grande número de fontes.
+<ul>
+<li>Fontes enviam dados em <em>unicast</em> até ao ponto central e lá é feita a distribuição.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Desvantagens</strong>:
+<ul>
+<li>Caminhos de dados ineficientes;</li>
+<li>Precisa de um mecanismo de seleção da raíz da árvore (RP);</li>
+<li>Ponto único de falha.</li>
+</ul>
+</li>
+</ul>
+<h4 id="exemplo-1"><a class="header" href="#exemplo-1">Exemplo</a></h4>
+<p><img src="images/shared_trees_example.png" alt="image Shared Trees" /></p>
+<h3 id="determinação-do-upstream-router"><a class="header" href="#determinação-do-upstream-router">Determinação do <em>Upstream Router</em></a></h3>
+<ul>
+<li>Os protocolos de <em>routing</em> precisam de determinar qual será a próxima interface de <em>upstream</em> para o grupo de <em>multicast</em> - Algoritmo RPF (<em>Reverse Path Forwarding</em>);</li>
+<li><em>Router</em> utiliza a interface de <em>upstream</em>;
+<ul>
+<li>Como interface de saída para pacotes de controlo (p.e. <em>join</em>, <em>leave</em>, <em>prune messages</em>, ...);</li>
+<li>Como interfaces de entrada para dados <em>multicast</em>.
+<ul>
+<li>Se os pacotes vêm de uma interface distinta, então descarta-os/ignora-os de forma a evitar pacotes duplicados e <em>loops</em>.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>PIM confia em MRIBs (<em>Multicast Routing Information Database</em>) de forma a efetuar RPF <em>lookups</em>.
+<ul>
+<li>MRIBs são semelhantes a tabelas de encaminhamento <em>unicast</em>.</li>
+</ul>
+</li>
+</ul>
+<h3 id="pim-protocol-independent-multicast"><a class="header" href="#pim-protocol-independent-multicast">PIM (<em>Protocol Independent Multicast</em>)</a></h3>
+<ul>
+<li>2 principais protocolos:
+<ul>
+<li><strong><em>PIM Sparse Mode</em> (PIM-SM)</strong> é um protocolo <em>opt-in</em> que utiliza, maioritariamente, <em>shared</em> e <em>source-based trees</em>;
+<ul>
+<li>Utilizado largamente em ambientes com recursos escassos.</li>
+</ul>
+</li>
+<li><strong><em>PIM Dense Mode</em> (PIM-DM)</strong> é um protocolo <em>opt-out</em> (<em>broadcast</em>/<em>prune</em>) que <strong>apenas</strong> utiliza <em>source-based trees</em>.
+<ul>
+<li>Utilizado maioritariamente em pequenos domínios;</li>
+<li>Consome poucos recursos à rede.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="pim-sparse-mode"><a class="header" href="#pim-sparse-mode"><em>PIM Sparse Mode</em></a></h4>
+<ul>
+<li>Por <em>default</em> utiliza <em>shared-trees</em> com raízes no <em>router</em>;</li>
+<li>Também oferece suporte às <em>source-based trees</em> para:
+<ul>
+<li>Evitar encapsulamento;</li>
+<li>Otimizar caminhos para os dados;</li>
+<li>Para <em>source-specific multicast</em> (SSM).</li>
+</ul>
+</li>
+<li>É um protocolo <em>soft-state</em>:
+<ul>
+<li>O estado dá <em>timeout</em> algum tempo após receber mensagens de controlo;</li>
+<li>Mensagens de <em>join</em> são re-transmitidas periódicamente de forma a manter o estado.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Método</strong>:</p>
+<ol>
+<li><em>Hosts</em> indicam o seu interesse em juntar-se ao grupo através de IGMP ou MLD;</li>
+<li>Um dos <em>routers</em> da LAN é eleito como <em>designated router</em> (DR);
+<ol>
+<li>Responsável por se juntar ao grupo de <em>multicast</em> e reencaminhar o tráfego.</li>
+</ol>
+</li>
+<li>Os <em>routers</em> enviam \( PIM\ (*,G) \) <em>Join Messages</em>.
+<ol>
+<li>Reencaminham o estado nos <em>routers</em>;
+<ol>
+<li>Gera uma <em>Rendezvous Point Tree (RPT)</em>.</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<p><img src="images/pim_sm_example.png" alt="image Shared Trees" /></p>
+<ul>
+<li><strong>Vantagens</strong>:
+<ul>
+<li>Independente do protocolo de <em>unicast</em> a operar na rede;</li>
+<li>Escala bem;</li>
+<li>Suporta tanto SSM como ASM;</li>
+<li>Suporta <em>shared trees</em> (não há necessidade de manter o estado de cada fonte) e <em>source-based trees</em> (caminhos de dados mais eficientes).</li>
+</ul>
+</li>
+<li><strong>Desvantagens</strong>:
+<ul>
+<li><em>Shared Trees</em>
+<ul>
+<li>Requer (des)encapsulamento entre a fonte e o <em>rendezvous point</em>;</li>
+<li>Mecanismo <em>source to RP</em> é necessário.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="pim-dense-mode"><a class="header" href="#pim-dense-mode"><em>PIM Dense Mode</em></a></h4>
+<ul>
+<li>Assume que grande parte das redes estão no domínio interessado em receber dados <em>multicast</em>;</li>
+<li>Não escala bem para grandes domínios, sendo utilizado em domínios pequenos;
+<ul>
+<li><em>Opt-Out Protocol</em>.</li>
+</ul>
+</li>
+<li>Utiliza <em>source-based trees</em> e o protocolo <em>opt-out</em>;</li>
+<li>Os dados são espalhados por todas as partes da rede (mas o <em>router</em> verifica se o pacote vem de uma <em>interface</em> próxima da fonte, caso contrário, descarta o pacote);</li>
+<li>Se o <em>router</em> não tiver necessidade de dados, então envia uma <em>prune message</em> \( PIM (S,G) \) <em>upstream</em>, o que provoca que o <em>upstream router</em> pare de enviar dados.</li>
+<li>O estado de <em>prune</em> nos <em>routers</em> dará <em>timeout</em>;
+<ul>
+<li>Os dados começam a encaminhar-se para áreas previamente <em>pruned</em>.</li>
+</ul>
+</li>
+<li>Se um novo recetor se encontrar numa parte da rede <em>pruned</em>:
+<ul>
+<li>O <em>router</em> local envia uma \( PIM (S,G) \) <em>Graft message upstream</em>, ou seja, um pedido de <em>rejoin</em> à árvore <em>multicast</em>;</li>
+<li>As mensagens <em>graft</em> são <em>acknowledge</em> com um <code>ACK</code> explícito (única situação em PIM).</li>
+</ul>
+</li>
+<li><strong>Vantagens</strong>:
+<ul>
+<li>Eficiente de os recetores se encontrarem densamente distribuídos na rede;</li>
+<li>Evita a complexidade na configuração RP.</li>
+</ul>
+</li>
+<li><strong>Desvantagens</strong>:
+<ul>
+<li>Todos os <em>routers</em> precisam de guardar o estado por fonte e para cada fonte do domínio;</li>
+<li>Não escala bem para domínios em que maior parte dos recetores não pretendam receber dados.</li>
+</ul>
+</li>
+</ul>
+<h3 id="resumo-dos-protocolos-de-multicast"><a class="header" href="#resumo-dos-protocolos-de-multicast">Resumo dos Protocolos de <em>Multicast</em></a></h3>
+<p><img src="images/summary_multicast_protocols.png" alt="image Protocolos de Multicast" /></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="multimedia-networking-i"><a class="header" href="#multimedia-networking-i">Multimedia Networking I</a></h1>
+<h2 id="multimedia-networking"><a class="header" href="#multimedia-networking"><em>Multimedia Networking</em></a></h2>
+<h3 id="3-tipos-de-aplicações-de-streaming"><a class="header" href="#3-tipos-de-aplicações-de-streaming">3 tipos de aplicações de <em>streaming</em></a></h3>
+<ul>
+<li><em>Streaming</em> de vídeo/áudio armazenados;
+<ul>
+<li><em><strong>streaming</strong></em>: pode começar o <em>playout</em> antes de fazer o <em>download</em> do ficheiro completo;</li>
+<li><strong>armazenado</strong> (num servidor): pode transmitir o áudio/vídeo mais rápido do que a sua renderização (implica que exista um <em>buffer</em> de armazenamento de dados no cliente);</li>
+<li>é <strong>essencial</strong> que a rede tenha uma largura de banda, no mínimo, mediana;</li>
+<li><strong>Exemplos</strong>: YouTube, Netflix, Hulu.</li>
+</ul>
+</li>
+<li>Conversações de vídeo/áudio sobre IP;
+<ul>
+<li>a natureza das conversas pessoais implicam um limite na tolerância do <em>delay</em>;</li>
+<li>é muito <em>time sensitive</em>;</li>
+<li>tolerante a perdas;</li>
+<li>se for vídeo, necessitará de uma largura de banda;</li>
+<li><strong>Exemplos</strong>: Skype, Zoom, Viber, WhatsApp.</li>
+</ul>
+</li>
+<li><em>Streaming</em> de áudio ou vídeo ao vivo.
+<ul>
+<li>Tem muitos requisitos temporais;</li>
+<li><strong>Exemplo</strong>: Transmissão de um evento desportivo em direto.</li>
+</ul>
+</li>
+</ul>
+<h4 id="streaming-de-vídeoáudio-armazenados"><a class="header" href="#streaming-de-vídeoáudio-armazenados"><em>Streaming</em> de vídeo/áudio armazenados</a></h4>
+<p><img src="images/streaming_stored_video_graph.png" alt="image Diagrama de Streaming de Vídeo Armazenado" /></p>
+<ul>
+<li><strong>Desafios</strong>:
+<ul>
+<li><strong><em>Playout</em> contínuo</strong>: assim que o <em>playout</em> de um cliente inicia, o <em>playback</em> deverá dar <em>match</em> com o <em>timing</em> original.
+<ul>
+<li>O problema é que os <em>delays</em> da rede são variáveis (<em>jitter</em>)... então, precisa-se que o cliente tenha um <em>buffer</em> para dar <em>match</em> aos requisitos de <em>playout</em>.</li>
+<li>No fundo, isto irá tratar-se de uma espécie de <em>buffer</em> de amortecimento que irá guardando os dados para dar <em>playout</em>.
+<ul>
+<li>Tornará a aplicação de lidar com algumas perdas;</li>
+<li>Se o <em>buffer</em> se esvaziar, o vídeo irá dar <em>freeze</em>.</li>
+</ul>
+</li>
+<li>Quando o cliente iniciar o <em>playout</em>, é desejável que o vídeo mantenha um ritmo constante.</li>
+</ul>
+</li>
+<li><strong>Interação com o cliente</strong>: Pausar o vídeo, dar <em>fast-forward</em>, voltar atrás, saltar partes do vídeo;</li>
+<li><strong>Retransmissão de pacotes perdidos</strong>.</li>
+</ul>
+</li>
+</ul>
+<p><img src="images/streaming_stored_video_graphv2.png" alt="image Diagrama de Streaming de Vídeo Armazenado" /></p>
+<p>Como se pode verificar, o <em>buffer</em> e o <em>playout delay</em> no lado do cliente permitem compensar o <em>delay</em> da rede e do <em>jitter</em>.</p>
+<h5 id="buffering-e-playout-no-lado-do-cliente"><a class="header" href="#buffering-e-playout-no-lado-do-cliente"><em>Buffering</em> e <em>Playout</em> no lado do Cliente</a></h5>
+<p><img src="images/buffering_playout_client.png" alt="image Buffering e Playout no lado do Cliente" /></p>
+<ol>
+<li>Inicialmente, irá encher o <em>buffer</em> até o <em>playout</em> iniciar em \( t_p \);</li>
+<li><em>Playout</em> iniciará em \( t_p \);</li>
+<li>O enchimento do <em>buffer</em> irá variar ao longo do tempo da mesma forma que a taxa de enchimento \( x(t) \) variará e a taxa de <em>playout</em> \( r \) se mantém constante.</li>
+</ol>
+<ul>
+<li>Quando a média da taxa de enchimento for menor que a taxa de <em>playout</em>: <em>buffer</em> irá, eventualmente, esvaziar-se (vídeo irá dar <em>freeze</em> até o <em>buffer</em> de <em>playout</em> voltar a encher);</li>
+<li>Quando a média da taxa de enchimento for maior que a taxa de <em>playout</em>: o <em>buffer</em> nunca se irá esvaziar e o <em>delay</em> de <em>plauout</em> inicial é suficiente para absorver a variação da taxa de enchimento.
+<ul>
+<li><em><strong>initial playout delay tradeoff</strong></em>: a <em>starvation</em> do <em>buffer</em> é menos provável, no entanto, é necessário um maior <em>delay</em> até o utilizador iniciar a visualização do conteúdo.</li>
+</ul>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="multimedia-networking-ii"><a class="header" href="#multimedia-networking-ii">Multimedia Networking II</a></h1>
+<h2 id="multimedia-networking-1"><a class="header" href="#multimedia-networking-1"><em>Multimedia Networking</em></a></h2>
+<h3 id="udp"><a class="header" href="#udp">UDP</a></h3>
+<ul>
+<li>Servidor envia a uma taxa apropriada para o cliente;
+<ul>
+<li>geralmente, a taxa de envio é igual à taxa de <em>encoding</em>, à taxa constante e à taxa de consumo;</li>
+<li>a taxa de transmissão pode não querer saber de níveis de congestão.</li>
+</ul>
+</li>
+<li>Tem um pequeno <em>playout delay</em> (1 a 2 segundos) para remover o <em>jitter</em> da rede;</li>
+<li>Recuperação de erros: ao nível da aplicação.</li>
+<li><strong>Inconvenientes</strong>:
+<ul>
+<li>Precisa de um controlo adicional;</li>
+<li>O ajuste da qualidade do vídeo, ou seja, a adaptação do débito, terá de ser feito pela aplicação em si;</li>
+<li>Pode não conseguir passar <em>firewalls</em> (certas <em>middleboxes</em> podem bloquear o tráfego UDP, visto este não dar qualquer garantia)</li>
+<li>É mais difícil de desenvolver para aplicações em larga escala;</li>
+</ul>
+</li>
+</ul>
+<h3 id="http"><a class="header" href="#http">HTTP</a></h3>
+<ul>
+<li>Corre sobre TCP;
+<ul>
+<li>Terá todos os mecanismos de controlo de congestão e fluxo do TCP.</li>
+</ul>
+</li>
+<li>Obtém o conteúdo através de pedidos <code>HTTP GET</code>;</li>
+<li>Envia à taxa possível máxima em TCP;</li>
+<li>A taxa de enchimento irá flutuar devido aos mecanismos de controlo de congestão do TCP e às suas retransmissões;</li>
+<li>Se a taxa de consumo for menos que a taxa de receção:
+<ul>
+<li>providencia uma entrega TCP <em>smooth</em>.</li>
+</ul>
+</li>
+<li>Se a taxa de consumo for maior:
+<ul>
+<li>o <em>buffer</em> será &quot;drenado&quot; e o vídeo irá entrar em <em>freeze</em>.</li>
+</ul>
+</li>
+</ul>
+<p><img src="images/streaming_http.png" alt="image Diagrama de Streaming HTTP" /></p>
+<ul>
+<li>De notar que quando o cliente remover <em>f bits</em>, irá criar espaço para novos <em>f bits</em> no <em>buffer</em> da aplicação do cliente, o que permitirá que o servidor envie <em>f bits</em> adicionais;</li>
+<li>A taxa de envio do servidor não poderá ser maior que a taxa de consumo no cliente. Assim, o comportamento do cliente poderá condicionar o envio de dados por parte do servidor;</li>
+<li>O DASH assume um comportamento semelhante ao HTTP, no entanto, é adaptativo.</li>
+<li><strong>Vantagens</strong>:
+<ul>
+<li>Não precisa de um <em>media control server</em>;</li>
+<li>Permite o vídeo <em>termination</em> e <em>repositioning</em>;</li>
+<li>Não tem problemas com <em>firewalls</em>;</li>
+<li>Melhor para desenvolvimento em larga escala.</li>
+</ul>
+</li>
+</ul>
+<h3 id="voice-over-ip-voip"><a class="header" href="#voice-over-ip-voip"><em>Voice-over-IP</em> (VoIP)</a></h3>
+<ul>
+<li>Particularmente sensível a variações de atrasos e menos sensível a perdas;</li>
+<li>O principal requisito é a necessidade de manter o aspeto conversacional;
+<ul>
+<li>Grandes <em>delays</em> são fáceis de notar;</li>
+<li><em>pings</em> menores a 150 <em>msec</em> são bons;</li>
+<li><em>pings</em> maiores que 300 <em>msec</em> são maus;</li>
+<li>Inclui o nível da aplicação;</li>
+</ul>
+</li>
+<li>Trabalha com base nos <em>talk spurt</em> (períodos de fala);
+<ul>
+<li>Ou seja, o tráfego é enviado a cada \( 20ms \),</li>
+</ul>
+</li>
+<li>Adiciona um cabeçalho da camada de aplicação a cada <em>chunk</em>;</li>
+<li>Encapsula o <em>chunk</em> e o cabeçalho em UDP (ou segmentos TCP);</li>
+<li>A aplicação irá enviar segumentos para o <em>socket</em> a cada \( 20ms \) durante o <em>talk spurt</em>.</li>
+</ul>
+<h4 id="packet-loss-e-delay"><a class="header" href="#packet-loss-e-delay"><em>Packet Loss</em> e <em>Delay</em></a></h4>
+<ul>
+<li>Faz <em>recall</em>, por <em>default</em>: o IP providencia um serviço de melhor esforço;</li>
+<li><em>Network loss</em>: datagrama IP perdida devido à congestão da rede (<em>buffer</em> do <em>router</em> deu <em>overflow</em>);</li>
+<li><em>Delay loss</em>: datagrama IP chega demasiado tarde para o <em>playout</em> do recetor:
+<ul>
+<li><em>delays</em>: a processar, em <em>queue</em> na rede, <em>delays</em> no <em>end-system</em> (emissor, recetor);</li>
+<li><em>delay</em> máximo tolerável, tipicamente: \( 300ms \);</li>
+<li>um <em>packet</em> atrasado é um <em>packet</em> perdido.</li>
+</ul>
+</li>
+<li>Tolerância a perdas: depende do <em>encoding</em> de voz e da ocultação de perdas. Para perda de <em>packets</em> a taxa entre 1% e 10% pode ser tolerada.</li>
+</ul>
+<h4 id="delay-jitter"><a class="header" href="#delay-jitter"><em>Delay Jitter</em></a></h4>
+<p>Os <em>delays end-to-end</em> para dois <em>packets</em> consecutivos: a diferença pode ser mais ou menos que \( 20ms \) (diferença do tempo de transmissão).</p>
+<p><img src="images/delay_jitter.png" alt="image Delay Jitter" /></p>
+<h4 id="delay-de-playout-fixo"><a class="header" href="#delay-de-playout-fixo"><em>Delay</em> de <em>playout</em> fixo</a></h4>
+<ul>
+<li>Quando iniciar o <em>playout</em>?
+<ul>
+<li>Recetor tenta dar <em>playout</em> de cada <em>chunk</em> exatamente \( q\ ms \) após o <em>chunk</em> ser gerado;
+<ul>
+<li>o <em>chunk</em> tem <em>timestamp</em> \( t \): <em>playout</em> do <em>chunk</em> em \( t+q \);</li>
+<li><em>chunk</em> chega depois de \( t+q \): dados que chegam tarde para o <em>playout</em> são considerados dados perdidos.</li>
+</ul>
+</li>
+<li><em>Trade-off</em> ao escolher o valor de \( q \):
+<ul>
+<li>valor alto de \( q \): perdem-se menos <em>packets</em>;</li>
+<li>valor baixo de \( q \): melhor experiência interativa.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>O emissor irá enviar pacotes a cada \( 20ms \) durante o <em>talk spurt</em>.
+<ul>
+<li>O primeiro <em>packet</em> irá chegar no tempo \( r \);</li>
+<li>O primeiro <em>playout</em> iniciará a \( p \);</li>
+<li>O segundo <em>playout</em> iniciará a \( p' \).</li>
+</ul>
+</li>
+</ul>
+<p><img src="images/fixed_playout_delay.png" alt="image Exemplo" /></p>
+<h4 id="delay-de-playout-adaptativo"><a class="header" href="#delay-de-playout-adaptativo"><em>Delay</em> de <em>playout</em> adaptativo</a></h4>
+<ul>
+<li><strong>Objetivo</strong>: ter um baixo <em>delay</em> de <em>playout</em> e baixa taxa de perda;</li>
+<li><strong>Abordagem</strong>: ajuste adaptativo do <em>delay</em> de <em>playout</em>:
+<ul>
+<li>Estimar o delay da rede, ajustar o <em>delay</em> de <em>playout</em> no início de cada <em>talk spurt</em>;</li>
+<li>Períodos silenciosos são comprimidos e alongados;</li>
+<li><em>Chunks</em> continuam a ser reproduzidos a cada \( 20ms \) durante o <em>talk spurt</em>.</li>
+</ul>
+</li>
+<li>Adaptativamente, estima o <em>delay</em> do <em>packet</em>: (EWMA: <em>exponentially weighted moving average</em>, estimativa para o <em>recall</em> TCP RTT):</li>
+</ul>
+<p>\[ d_i = (1 - \alpha)d_{i - 1} + \alpha(r_i - t_i) \]</p>
+<ul>
+<li>
+<p>Onde:</p>
+<ul>
+<li>\( d_i \): representa o <em>delay</em> estimado após o pacote \( i \);</li>
+<li>\( \alpha \): pequena constante, por exemplo, \( 0.1 \);</li>
+<li>\( r_i \): tempo recebido;</li>
+<li>\( t_i \): tempo enviado (<em>timestamp</em>);</li>
+<li>\( (r_i - t_i) \): <em>delay</em> medido para o pacote \( i \).</li>
+</ul>
+</li>
+<li>
+<p>Também é útil para estimar a média do desvio do <em>delay</em>, \( v_i \):</p>
+</li>
+</ul>
+<p>\[ v_i = (1 - \beta)v_{i-1} + \beta|r_i - t_i - d_i| \]</p>
+<ul>
+<li>Estima \( d_i \), calcula \( v_i \) a cada <em>packet</em> recebido, mas apenas é utilizado no início do <em>talk spurt</em>;</li>
+<li>Para o primeiro <em>packet</em> no <em>talk spurt</em>, o <em>playout time</em> é_</li>
+</ul>
+<p>\[ playout\ time_i = t_i + d_i + Kv_i \]</p>
+<ul>
+<li>Os restantes <em>packets</em> no <em>talk spurt</em> são reproduzidos de forma periódica.</li>
+<li>Como é que um recetor determina se um <em>packet</em> é o primeiro num <em>talk spurt</em>?
+<ul>
+<li>se não existirem perdas, o recetor olha para as <em>timestamps</em> consecutivas;
+<ul>
+<li>se a diferença entre <em>timestamps</em> consecutivas for superior a \( 20ms \), indica que o <em>talk spurt</em> iniciou.</li>
+</ul>
+</li>
+<li>com possíveis perdas, o recetor deve olhar para as <em>timestamps</em> e para os números de sequência.
+<ul>
+<li>se a diferença entre <em>timestamps</em> consecutivas for superior a \( 20ms \) e o número de sequência não tem falhas, indica que o <em>talk spurt</em> iniciou.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="recuperar-de-uma-perda-de-um-packet"><a class="header" href="#recuperar-de-uma-perda-de-um-packet">Recuperar de uma perda de um <em>packet</em></a></h4>
+<ul>
+<li><strong>Desafio</strong>: recuperar da perda do pacote dando um pequeno <em>delay</em> tolerável entre a transmissão original e o <em>playout</em>.
+<ul>
+<li>Cada ACK/NAK demora cerca de um RTT;</li>
+<li>Alternativa: <em><strong>Forward Error Correction (FEC)</strong></em>.
+<ul>
+<li>Envia <em>bits</em> suficientes para permitir uma recuperação sem retransmissão.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>FEC Simples</strong>:
+<ul>
+<li>Para cada grupo de \( n \) <em>chunks</em>, cria um <em>chunk</em> redundante para utilizar <code>OR</code>-exclusivos com <code>n</code> <em>chunks</em> originais;</li>
+<li>Envia \( n + 1 \) <em>chunks</em>, aumentando a largura de banda por um fator \( \frac{1}{n} \);</li>
+<li>Pode reconstruir \( n \) <em>chunks</em> originais se perder nmo máximo um <em>chunk</em> dos \( n+1 \) <em>chunks</em> com o <em>delay</em> de <em>playout</em>.</li>
+</ul>
+</li>
+<li><strong>Outro esquema FEC</strong>:
+<ul>
+<li>&quot;<em>piggyback lower quality stream</em>&quot;;</li>
+<li>Envia <em>streams</em> de áudio em baixa resolução como informação redundante;</li>
+<li>Perdas não consecutivas: recetor pode esconder a perda;</li>
+<li>Generalização: também pode dar <em>append</em> do (\( n-1 \))º e (\( n-2 \))º menor bit da taxa de <em>chunk</em>.</li>
+</ul>
+</li>
+</ul>
+<p><img src="images/fec_scheme.png" alt="image Esquema FEC" /></p>
+<ul>
+<li><strong><em>Interleaving</em> para esconder a perda</strong>:
+<ul>
+<li><em>Chunks</em> de áudio são divididos em unidades mais pequenas;</li>
+<li><em>Packets</em> contêm pequenas unidades de diferentes <em>chunks</em>;</li>
+<li>Se um <em>packet</em> é perdido, continuar-se-á a ter grande parte do <em>chunk</em> original;</li>
+<li>Não tem <em>overhead</em> de redundância, mas aumenta a latência e o <em>delay</em> de <em>playout</em>.</li>
+</ul>
+</li>
+</ul>
+<h4 id="skype"><a class="header" href="#skype"><em>Skype</em></a></h4>
+<ul>
+<li>Tem uma protocolo de camada aplicacional proprietário que foi inferido através de <em>reverse engineering</em>;
+<ul>
+<li>Mensagens encriptadas.</li>
+</ul>
+</li>
+<li>Componentes:
+<ul>
+<li><strong>Clientes</strong>: <em>Peers</em> do <em>Skype</em> conectam-se diretamente uns aos outros através de chamadas VoIP;</li>
+<li><strong>Super-Nodos (SN)</strong>: <em>Peers</em> do <em>Skype</em> com funções especiais;</li>
+<li><strong>Rede de <em>Overlay</em></strong>: Entre os SNs para localizar os SCs;</li>
+<li><em><strong>Login Server</strong></em>.</li>
+</ul>
+</li>
+</ul>
+<p><img src="images/skype.png" alt="image Skype" /></p>
+<ul>
+<li><strong>Operação do Cliente</strong>:
+<ul>
+<li>Junta-se à rede do <em>Skype</em> ao contactar o SN (endereço IP em <em>cache</em>) utilizando TCP;</li>
+<li>Efetua o <em>login</em> para o servidor centralizado de <em>login</em> do <em>Skype</em>;</li>
+<li>Obtém o endereço IP para o outro interveniente através do SN e do seu overlay;
+<ul>
+<li>Ou a lista dos amigos do cliente.</li>
+</ul>
+</li>
+<li>Inicia a chamada diretamente com o outro interveniente.</li>
+</ul>
+</li>
+</ul>
+<h5 id="peers-como-relays"><a class="header" href="#peers-como-relays"><em>Peers</em> como <em>relays</em></a></h5>
+<p><img src="images/relays_skype.png" alt="image Peers como Relays" /></p>
+<ul>
+<li><strong>Problema</strong>: tanto a Alice, como o Bob estão atrás de NATs.
+<ul>
+<li>O NAT não permite que o <em>outside peer</em> inicie uma conexão com o <em>insider peer</em>;</li>
+<li>O <em>insider peer</em> pode iniciar uma conexão com o exterior!</li>
+</ul>
+</li>
+<li><strong>Solução <em>Relay</em></strong>: a Alice e o Bob mantêm uma conexão aberta com os seus SNs.
+<ul>
+<li>A Alice sinaliza o seu SN para se conectar ao Bob;</li>
+<li>O SN da Alice conecta-se ao SN do Bob;</li>
+<li>O SN do Bob conecta-se ao Bob através da conexão aberta que o Bob, anteriormente, iniciou com o seu SN.</li>
+</ul>
+</li>
+</ul>
+<h3 id="real-time-protocol-rtp"><a class="header" href="#real-time-protocol-rtp"><em>Real-Time Protocol</em> (RTP)</a></h3>
+<ul>
+<li>Especifica a estrutura de <em>packets</em> com dados de áudio ou vídeo;</li>
+<li>RFC 3550;</li>
+<li><em>Packet</em> RTP providenciam:
+<ul>
+<li>identificação do tipo de <em>payload</em>;</li>
+<li>numeração da sequência do <em>packet</em>;</li>
+<li><em>Time stamping</em>.</li>
+</ul>
+</li>
+<li>Corre em <em>end systems</em>;</li>
+<li>Os <em>packets</em> são encapsulados em segmentos UDP;</li>
+<li>Interoperabilidade: se duas aplicação VoIP correm RTP, então elas devem poder trabalhar em conjunto.</li>
+</ul>
+<h4 id="corre-em-cima-de-udp"><a class="header" href="#corre-em-cima-de-udp">Corre em cima de UDP</a></h4>
+<p>As bibliotecas de RTP providenciam uma interface para a camada de transporte que extende o UDP:</p>
+<ul>
+<li>Número de portas e endereços IP;</li>
+<li>Identificação do tipo de <em>payload</em>;</li>
+<li>Numeração da sequência do pacote;</li>
+<li><em>Time stamping</em>.</li>
+</ul>
+<h4 id="rtp-e-qos"><a class="header" href="#rtp-e-qos">RTP e QoS</a></h4>
+<ul>
+<li>O RTP não providencia qualquer mecanismo para garantir a entrega atempada dos dados ou qualquer outra garantia QoS;</li>
+<li>O encapsulamento RTP só é visto nos <em>end systems</em> (não nos <em>routers</em> intermédios).
+<ul>
+<li><em>Routers</em> providenciam um serviço de melhor esforço, não fazendo um esforço especial para garantir que os <em>packets</em> RTP chegam ao destino de forma atempada.</li>
+</ul>
+</li>
+</ul>
+<h4 id="cabeçalho"><a class="header" href="#cabeçalho">Cabeçalho</a></h4>
+<p><img src="images/rtp_header.png" alt="image Cabeçalho RTP" /></p>
+<ul>
+<li><strong>Tipo de <em>payload</em></strong> (7 <em>bits</em>): indica o tipo de <em>encoding</em> a ser utilizado no momento. Se o emissor alterar o <em>encoding</em> durante a chamada, o <em>emissor</em> irá informar dessa troca através deste campo.
+<ul>
+<li><em>Payload type 0</em>: PCM mu-law, \( 64Kbps \);</li>
+<li><em>Payload type 3</em>: GSM, \( 13Kbps \);</li>
+<li><em>Payload type 7</em>: LPC, \( 2.4Kbps \);</li>
+<li><em>Payload type 26</em>: Motion JPEG;</li>
+<li><em>Payload type 31</em>: H.261;</li>
+<li><em>Payload type 33</em>: MPEG2 video.</li>
+</ul>
+</li>
+<li><strong>Número de Sequência</strong> (16 <em>bits</em>): incrementa em 1 a cada <em>packet</em>RTP enviado;
+<ul>
+<li>Deteta a perda a de pacotes, restaura a sequência de pacotes.</li>
+</ul>
+</li>
+<li><em><strong>Timestamp</strong></em> (32 <em>bits</em>): instante do primeiro <em>byte</em> neste <em>packet</em> de dados RTP;
+<ul>
+<li>Para o áudio, o <em>timestamp clock</em> incrmenta em um por cada período de amostragem;</li>
+<li>Se a aplicação gerar <em>chunks</em> de 160 amostras <em>encoded</em>, o <em>timestamp</em> será incrementado em 160 por cada RTP <em>packet</em> quando a fonte está ativa. O <em>timestamp clock</em> continua a crescer a um ritmo constante quando a fonte está inativa.</li>
+</ul>
+</li>
+<li><strong>SSRC</strong> (32 <em>bits</em>): identifica a fonte da <em>stream</em> RTP. Cada <em>stream</em> na sessão RTP tem um SSRC distinto.</li>
+</ul>
+<h4 id="programação-com-rtsprtp"><a class="header" href="#programação-com-rtsprtp">Programação com RTSP/RTP</a></h4>
+<ul>
+<li>Constrói um servidor que encapsula <em>frames</em> de vídeo armazenadas em <em>packets</em> RTP;
+<ul>
+<li>Pega no <em>frame</em> do vídeo, adiciona cabeçalhos RTP, cria segmentos UDP, envia segmentos para o <em>socket</em> UDP;</li>
+<li>Inclui números de sequência e <em>timestamps</em>;</li>
+<li>É providenciado um cliente RTP.</li>
+</ul>
+</li>
+<li>Escreve o lado do cliente no do RTSP.
+<ul>
+<li>Comandos de <em>play</em>/<em>pause</em>;</li>
+<li>É providenciado um servidor RTSP.</li>
+</ul>
+</li>
+</ul>
+<h3 id="real-time-control-protocol-rtcp"><a class="header" href="#real-time-control-protocol-rtcp"><em>Real-Time Control Protocol</em> (RTCP)</a></h3>
+<ul>
+<li>Trabalha em conjunto com o RTP;</li>
+<li>Cada participante numa sessão RTP, de forma periódica, envia <em>packets</em> de controlo para todos os outros participantes;</li>
+<li>Cada <em>packet</em> RTCP contém o emissor e/ou os <em>reports</em> do recetor;
+<ul>
+<li>As estatísticas dos <em>reports</em> são úteis para as aplicações:
+<ul>
+<li>Número de <em>packets</em> enviados;</li>
+<li>Número de <em>packets</em> perdidos;</li>
+<li><em>Interarrival jitter</em>.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><em>Feedback</em> utilizado para controlar o desempenho.
+<ul>
+<li>Emissor pode modificar as suas transmissões baseando-se no <em>feedback</em>.</li>
+</ul>
+</li>
+</ul>
+<h4 id="múltiplos-emissores-multicast"><a class="header" href="#múltiplos-emissores-multicast">Múltiplos emissores <em>multicast</em></a></h4>
+<ul>
+<li>Cada sessão RTP: tipicamente um endereço <em>multicast</em> singular e todos os <em>packets</em> RTP/RTCP pertencentes à sessão usam o endereço <em>multicast</em>;</li>
+<li><em>Packets</em> RTP e RTCP distinguidos dos restantes via números de portas distintas;</li>
+<li>De forma a limitar o tráfego, cada participante reduz o tráfego RTCP consoante o número de participantes aumenta.</li>
+</ul>
+<h4 id="tipos-de-packets"><a class="header" href="#tipos-de-packets">Tipos de <em>Packets</em></a></h4>
+<ul>
+<li><em>Receiver Report Packets</em>:
+<ul>
+<li>Fração de pacotes perdidos, último número de sequência, média do <em>interarrival jitter</em>.</li>
+</ul>
+</li>
+<li><em>Sender Report Packets</em>:
+<ul>
+<li>SSRC da <em>stream</em> RTP, tempo atual, número de pacotes enviados, número de <em>bytes</em> enviados.</li>
+</ul>
+</li>
+<li><em>Source Description Packets</em>:
+<ul>
+<li>Endereço de email do emissor, nome do emissor, SSRC da <em>stream</em> RTP a que está associado;</li>
+<li>Providencia o <em>mapping</em> entre o SSRC e o nome do <em>user</em>/<em>host</em>.</li>
+</ul>
+</li>
+</ul>
+<h4 id="sincronização-da-stream"><a class="header" href="#sincronização-da-stream">Sincronização da <em>Stream</em></a></h4>
+<ul>
+<li>RTCP pode sincronizar diferentes <em>streams</em> de mídias numa sessão RTP;</li>
+<li><em>Timestamps</em> em <em>packets</em> RTP estão presos ao vídeo, relógios de amostragem de áudi;
+<ul>
+<li>Não está preso ao tempo do relógio real.</li>
+</ul>
+</li>
+<li>Cada <em>sender-report</em> do RTCP contém (para os <em>packets</em> mais recentemente gerados numa <em>stream</em> RTP associada):
+<ul>
+<li><em>Timestamp</em> para o <em>packet</em> RTP;</li>
+<li>Tempo real para quando o <em>packet</em> foi criado.</li>
+</ul>
+</li>
+<li>Recetores utilizam a associação para sincronizar o <em>playout</em> do áudio ou do vídeo.</li>
+</ul>
+<h4 id="escalar-a-largura-de-banda"><a class="header" href="#escalar-a-largura-de-banda">Escalar a largura de banda</a></h4>
+<p>O RTCP tenta limitar o seu tráfego a 5% da largura de banda da sessão.</p>
+<h3 id="sip-session-initiation-protocol-rfc-3261"><a class="header" href="#sip-session-initiation-protocol-rfc-3261">SIP: <em>Session Initiation Protocol</em> (RFC 3261)</a></h3>
+<ul>
+<li>Visão a longo-termo:
+<ul>
+<li>Todas as chamadas telefónicas, vídeo-conferências são feitas na Internet;</li>
+<li>Pessoas são identificadas pelos nomes ou pelos endereços de email, ao invés de números de telemóvel;</li>
+<li>Pode chegar ao &quot;chamado&quot; (se ele assim o desejar), não interessando onde este está ou o tipo de dispositivo IP que está a usar.</li>
+</ul>
+</li>
+</ul>
+<h4 id="serviços"><a class="header" href="#serviços">Serviços</a></h4>
+<ul>
+<li>Providencia mecanismos para o <em>call setup</em>:
+<ul>
+<li>Para quem faz a chamada informar o recetor que pretende estabelecer a chamada;</li>
+<li>Para ambos concordarem qual o tipo mídia e o <em>encoding</em>;</li>
+<li>Para terminar uma chamada.</li>
+</ul>
+</li>
+<li>Determina o endereço IP do recetor da chamda:
+<ul>
+<li>Mapeia identificadores de mnemónica para o endereço IP atual.</li>
+</ul>
+</li>
+<li>Gestão de chamadas:
+<ul>
+<li>Adiciona novas <em>streams</em> de mídia durante a chamada;</li>
+<li>Altera o <em>encoding</em> durante as chamadas;</li>
+<li>Convida outros;</li>
+<li>Transfere e coloca <em>calls</em> em espera.</li>
+</ul>
+</li>
+</ul>
+<h4 id="iniciar-uma-chamada-para-um-endereço-ip-conhecido"><a class="header" href="#iniciar-uma-chamada-para-um-endereço-ip-conhecido">Iniciar uma chamada para um endereço IP conhecido</a></h4>
+<p><img src="images/sip_call.png" alt="image Chamada SIP" /></p>
+<ul>
+<li>Mensagem SIP de convite da Alice indica o número da sua porta, ou seu endereço IP e o <em>encoding</em> em que ela prefere receber dados;</li>
+<li>Mensagem <code>200OK</code> do Bob indica o número da sua porta, o seu endereço IP e o seu <em>enoding</em> preferido;</li>
+<li>Mensagens SIP podem ser enviadas por TCP ou UDP;
+<ul>
+<li>Neste exemplo, são enviadas por RTP/UDP.</li>
+</ul>
+</li>
+<li>A porta <em>default</em> do SIP é 5060.</li>
+<li>Negociação do <em>codec</em>:
+<ul>
+<li>Se o Bob não tiver um <em>encoder</em> para o pretendido pela Alice;</li>
+<li>Enviará a mensagem <code>606 Not Acceptable Reply, listing his encoders</code>. A Alice poderá enviar uma nova mensagem de <em>Invite</em> anunciando um diferente <em>encoder</em>.</li>
+</ul>
+</li>
+<li>Rejeitar uma chamada:
+<ul>
+<li>O Bob pode rejeitar a chamada com respostas de <em>busy</em>, <em>gone</em>, <em>payment required</em> ou <em>forbidden</em>.</li>
+</ul>
+</li>
+<li>A mídia pode ser enviada através de RTP ou de outro protocolo.</li>
+</ul>
+<h4 id="exemplo-de-mensagem"><a class="header" href="#exemplo-de-mensagem">Exemplo de Mensagem</a></h4>
+<p><img src="images/sip_message.png" alt="image Mensagem SIP" /></p>
+<ul>
+<li>Aqui, não se sabe o endereço IP do Bob;
+<ul>
+<li>Serão necessários servidores intermédios de SIP.</li>
+</ul>
+</li>
+<li>A Alice envia e recebe mensagens SIP utilizando a porta <em>default</em> do SIP, 5060;</li>
+<li>Especifica no cabeçalho o que envia e recebe mensagens SIP através de UDP.</li>
+</ul>
+<h4 id="translação-de-nomes-localização-do-utilizador"><a class="header" href="#translação-de-nomes-localização-do-utilizador">Translação de nomes, localização do utilizador</a></h4>
+<ul>
+<li>Queremos fazer uma chamada, mas só temos o nome ou o email do recetor;</li>
+<li>É preciso obter o endereço IP do <em>host</em> atual do recetor:
+<ul>
+<li>Utilizador movimenta-se;</li>
+<li>Protocolo DHCP;</li>
+<li>Utilizador tem dispositivos IP diferentes.</li>
+</ul>
+</li>
+<li>Resultado pode ser baseado em:
+<ul>
+<li>Altura do dia;</li>
+<li>Quem efetua a chamada;</li>
+<li>Estado do recetor da chamada (chamada enviada para o <em>voicemail</em> quando já se está a falar com alguém).</li>
+</ul>
+</li>
+</ul>
+<h4 id="registrar"><a class="header" href="#registrar"><em>Registrar</em></a></h4>
+<ul>
+<li>Função de registo no servidor SIP;</li>
+<li>Quando o Bob inicia o cliente SIP, o cliente envia uma mensagem <code>SIP REGISTER</code> para o <em>registrar server</em> do Bob;</li>
+<li>Mensagem de registo:</li>
+</ul>
+<p><img src="images/registrar_sip.png" alt="image Registrar Server" /></p>
+<h4 id="proxy"><a class="header" href="#proxy"><em>Proxy</em></a></h4>
+<ul>
+<li>Outra função do servidor SIP: <em>proxy</em>;</li>
+<li>A Alice envia mensagem de convite para o seu servidor <em>proxy</em>;
+<ul>
+<li>Contém o endereço <code>sip:bob@domain.com</code>;</li>
+<li><em>Proxy</em> responsável por fazer o <em>routing</em> das mensagens SIP para o recetor, possivelmente através de múltiplos servidores <em>proxy</em>;</li>
+</ul>
+</li>
+<li>O Bob irá responder de volta por todo o conjunto de <em>proxies</em> SIP;</li>
+<li>O <em>proxy</em> retornará a mensagem de resposta à Alice;
+<ul>
+<li>Contém o endereço IP do Bob.</li>
+</ul>
+</li>
+<li><em>Proxy</em> do SIP é análogo a um servidor de DNS local mais um <em>setup</em> de TCP.</li>
+</ul>
+<p><img src="images/sip_example.png" alt="image Exemplo" /></p>
+<h4 id="comparação-com-h323"><a class="header" href="#comparação-com-h323">Comparação com H.323</a></h4>
+<ul>
+<li>H.323:
+<ul>
+<li>outro protocolo de <em>signaling</em> para mídias interativos de tempo real;</li>
+<li>leque de protocolos completos e integralmente verificados para conferência multimédia: sinalização, registo, controlo de admissão, transporte e <em>codecs</em>;</li>
+<li>vem do ITU (telefonia).</li>
+</ul>
+</li>
+<li>SIP:
+<ul>
+<li>componente singular que trabalha com o RTP, mas não é obrigado a tal. Pode ser combinado com outros protocolos ou serviços:</li>
+<li>Vem do IEFT: tem muitos conceitos emprestado do HTTP;</li>
+<li>Usa o princípio KISS: <em>Keep It Simple Stupid</em>.</li>
+</ul>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="signaling-protocols-sip---session-initiation-protocol"><a class="header" href="#signaling-protocols-sip---session-initiation-protocol"><em>Signaling Protocols</em> (SIP - <em>Session Initiation Protocol</em>)</a></h1>
+<h2 id="nota-1"><a class="header" href="#nota-1">NOTA:</a></h2>
+<p>Para ser mais fácil designar ambas as partes, definir-se-á o seguinte padrão nas próximas linhas deste documento.</p>
+<ul>
+<li>Chamador: pessoa que pretende efetutar uma chamada;</li>
+<li>Chamado: pessoa que irá receber a chamada.</li>
+</ul>
+<h2 id="motivação"><a class="header" href="#motivação">Motivação</a></h2>
+<ul>
+<li>É necessário:
+<ul>
+<li>Criar e gerir sessões entre aplicações;</li>
+<li>Gerar o comportamento e práticas de utilizadores heterogéneos (mobilidade, diferentes dispositivos e IDs/nomes).</li>
+</ul>
+</li>
+<li>Visão a longo-prazo do SIP:
+<ul>
+<li>Todas as chamadas telefónicas e conferências por vídeo vão ser na <em>Internet</em>;</li>
+<li>As pessoas serão identificadas pelos seus nomes ou <em>emails</em>, ao invés de número de telemóvel;</li>
+<li>Podemos alcançar a pessoa a quem queremos ligar, independentemente da sua localização ou dispositivo IP que esteja a usar.</li>
+</ul>
+</li>
+</ul>
+<h2 id="session-initiation-protocol"><a class="header" href="#session-initiation-protocol"><em>Session Initiation Protocol</em></a></h2>
+<ul>
+<li>Um protocolo de controlo da camada aplicacional (de sinalização) para criar, modificar e terminar sessões com um ou mais participantes;</li>
+<li>Trabalha com protocolos de multimédia em tempo real, permitindo que os diversos <em>endpoints</em> (chamados <em>user agents</em>) se conectem uns aos outros e cheguem a acordo na caracterização da sessão que pretendem partilhar;</li>
+<li>Para localizar possíveis participantes na sessão e outras funções, o SIP permite a criação de uma infraestrutura de <em>hosts</em> na rede (chamados <em>proxy servers</em>) para os quais os <em>user agents</em> podem enviar registos, convites para sessões e outros pedidos;</li>
+<li><strong>Funcionalidades</strong>:
+<ul>
+<li><strong>Localização do Utilizador</strong>: encontrar a localização atual de um utilizador. Os utilizadores podem aceder às funcionalidades da aplicação de forma remota;</li>
+<li><strong>Disponibilidade dos Utilizadores</strong>: determina a disponibilidade de um utilizador para comunicar;</li>
+<li><strong>Capacidade dos Utilizadores</strong>: determina os mídia e os parâmetros a serem utilizados para comunicar;</li>
+<li><strong>Configuração de Sessão</strong>: estabelece os parâmetros para uma sessão ponto-a-ponto e <em>multiparty calls</em>;</li>
+<li><strong>Gestão de Sessão</strong>: transferência e término de sessões, alteração dos seus parâmetros e chamada de serviços.</li>
+</ul>
+</li>
+<li>Para a configuração de uma chamada, o SIP providencia mecanismos:
+<ul>
+<li>Para o chamador informar o recetor que alguém pretende estabelecer uma chamada com ele;</li>
+<li>Para que o chamador e o chamado concordem no tipo de mídia e no <em>encoding</em>;</li>
+<li>Para terminar uma chamada.</li>
+</ul>
+</li>
+<li>Determinar o endereço de IP atual do chamado:
+<ul>
+<li>Mapeia o identificador da mnemónica para o endereço IP atual.</li>
+</ul>
+</li>
+<li>Gestão de chamadas:
+<ul>
+<li>Adiciona novas <em>streams</em> de mídia durante a chamada;</li>
+<li>Altera o <em>encoding</em> durante a chamada;</li>
+<li>Convida outros utilizadores;</li>
+<li>Transfere ou coloca chamadas em espera.</li>
+</ul>
+</li>
+<li>O SIP <em>Uniform Resource Identifier</em> (URI) é semelhante a um endereço de <em>email</em>:
+<ul>
+<li><code>sip|sips:user:password@host:port;uri-parameters?headers</code>;</li>
+<li><code>sip: bob@domain.com</code>.</li>
+</ul>
+</li>
+<li>Baseado no modelo de transação pedido/resposta do HTTP;</li>
+<li>Utiliza maior parte dos cabeçalhos, regras de <em>encoding</em> e códigos de estado do HTTP;
+<ul>
+<li>Formato legível para mostrar informação;</li>
+</ul>
+</li>
+<li>Utiliza o conceito de pesquisas DNS recursivas e iterativas;</li>
+<li>Incorpora o SDP (<em>Session Description Protocol</em>).
+<ul>
+<li>Define os conteúdos da sessão utilizando tipos semelhantes ao MIME (extensões <em>email</em>).</li>
+</ul>
+</li>
+<li>Providencia primitas de serviços, não serviços;</li>
+<li>É um componente independente que pode ser utilizado com outros protocolos IETF (RTP, RTSP, SDP, etc...) para completar uma arquitetura multimédia;
+<ul>
+<li>Pode correr em TCP, UDP, DCCP, SCTP, RTP/RTCP, etc...</li>
+</ul>
+</li>
+<li>Compreender 4 tipos de entidades lógicas: <em>user agent</em>, <em>redirect server</em>, <em>proxy server</em> e <em>registrar</em>.</li>
+</ul>
+<h3 id="componentes-e-protocolos"><a class="header" href="#componentes-e-protocolos">Componentes e Protocolos</a></h3>
+<ul>
+<li><strong>Cliente</strong>:
+<ul>
+<li>Envia pedidos e recebe respostas;</li>
+<li>Clientes <em>user agent</em> e <em>proxies</em> são clientes.</li>
+</ul>
+</li>
+<li><strong>Servidor</strong>:
+<ul>
+<li>Recebe pedidos e envia respostas;</li>
+<li><em>Proxies</em>, servidores <em>user agent</em>, servidores de redirecionamento e <em>registrars</em>;</li>
+</ul>
+</li>
+<li><em><strong>User Agent</strong></em>:
+<ul>
+<li>Em todas as estações terminais do SIP.
+<ul>
+<li><em>User Agent Client</em> (UAC): Levanta pedidos;</li>
+<li><em>User Agent Server</em> (UAS): Recebe pedidos e responde.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><em><strong>Redirect Server</strong></em>:
+<ul>
+<li>Redireciona o cliente para contactar um conjunto alternativo de URIs;</li>
+<li>Semelhante a pesquisas iterativas no DNS.</li>
+</ul>
+</li>
+<li><em><strong>Proxy Server</strong></em>:
+<ul>
+<li>Servidor e Cliente;</li>
+<li>Faz pedidos a outros clientes.
+<ul>
+<li>Faz o <em>routing</em> e força a aplicação de políticas nas chamadas;</li>
+<li>Semelhante a pesquisas recursivas no DNS.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><em><strong>Registrar</strong></em>:
+<ul>
+<li>Servidor que aceita pedidos <code>REGISTER</code>;</li>
+<li>Coloca a informação que recebe em pedidos na localização do serviço para o domínio.
+<ul>
+<li>Endereço SIP, endereço IP do dispositivo associado, estado...</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Localização do Serviço</strong>:
+<ul>
+<li>Utilizado pelo redirecionamento ou pelos <em>proxy servers</em> para obter informações acerca da possíveis localizações do chamada;</li>
+<li>Mantém uma base de dados do mapeamento dos <code>SIP-address</code> \( \rightarrow \) <code>IP-address</code>.</li>
+</ul>
+</li>
+</ul>
+<p><img src="images/sip_topology.png" alt="image Exemplo" /></p>
+<h3 id="mensagens"><a class="header" href="#mensagens">Mensagens</a></h3>
+<h4 id="requests"><a class="header" href="#requests"><em>Requests</em></a></h4>
+<ul>
+<li>Vejam-se os seguintes exemplos de métodos:
+<ul>
+<li><em><strong>REGISTER</strong></em>: notifica a rede SIP dos endereços IP e URIs dos quais gostaria de receber chamadas;</li>
+<li><em><strong>INVITE</strong></em>: estabelece a sessão entre os <em>user agents</em>;</li>
+<li><em><strong>ACK</strong></em>: confirma a troca fiável de mensagens;</li>
+<li><em><strong>CANCEL</strong></em>: termina o pedido em curso, mas não desfaz a chamada completa;</li>
+<li><em><strong>BYE</strong></em>: termina a sessão entre utilizadores numa conferência;</li>
+<li><em><strong>OPTIONS</strong></em>: solicita informações acerca das capacidades do chamado;</li>
+<li>etc...</li>
+</ul>
+</li>
+</ul>
+<h4 id="response"><a class="header" href="#response"><em>Response</em></a></h4>
+<ul>
+<li><em><strong>PROVISIONAL</strong></em> (1xx): Pedido pedido e a ser processado;</li>
+<li><em><strong>SUCCESS</strong></em> (2xx): Ação recebida, compreendida e aceite;</li>
+<li><em><strong>REDIRECTION</strong></em> (3xx): Preciso ação futura;</li>
+<li><em><strong>CLIENT ERROR</strong></em> (4xx): O pedido contém má <em>syntax</em> ou não pode ser completado por este servidor;</li>
+<li><em><strong>SERVER ERROR</strong></em> (5xx): Servidor não conseguiu processar um pedido aparentemente correto;</li>
+<li><em><strong>GLOBAL FAILURE</strong></em> (6xx): Pedido não foi completado em nenhum servidor.</li>
+</ul>
+<h3 id="tentatia-de-início-de-chamada"><a class="header" href="#tentatia-de-início-de-chamada">Tentatia de Início de Chamada</a></h3>
+<p><img src="images/sip_call_setup.png" alt="image Exemplo" /></p>
+<h3 id="notificação"><a class="header" href="#notificação">Notificação</a></h3>
+<p><img src="images/sip_notification.png" alt="image Exemplo" /></p>
+<h3 id="início-bem-sucedido"><a class="header" href="#início-bem-sucedido">Início Bem Sucedido</a></h3>
+<p><img src="images/sip_setup_succ.png" alt="image Exemplo" /></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="protocolos-de-transporte-rtprtcp"><a class="header" href="#protocolos-de-transporte-rtprtcp">Protocolos de Transporte RTP/RTCP</a></h1>
+<h2 id="motivação-rtp"><a class="header" href="#motivação-rtp">Motivação RTP</a></h2>
+<ul>
+<li>O TCP não está bem desenhado para aplicações interativas e com requisitos de tempo real;
+<ul>
+<li>Comunicação ponto-a-ponto não é aplicável para <em>multicast</em>;</li>
+<li>Não há forma de associar o <em>timing</em> com segmentos;</li>
+<li>Causa <em>delays</em> arbitrários.</li>
+</ul>
+</li>
+<li>O SCTP é <em>multistream</em> mas tem algumas desvantagens do TCP;</li>
+<li>Não inclui informações de <em>timing</em> sem qualquer tipo de suporte para aplicações com requisitos de tempo real. O DCCP providencia algum suporte para o controlo de <em>buffers</em>, mas não para o <em>timing</em> de mídias;</li>
+<li>O RTP tenta fornecer suporte ao transporte de dados, áudio ou vídeo em tempo real.</li>
+</ul>
+<h3 id="rtp"><a class="header" href="#rtp">RTP</a></h3>
+<ul>
+<li><strong>Objetivo</strong>: Providencia mecanismos para entregas de dados (áudio, vídeo) em tempo real fim-a-fim.</li>
+<li>Aplicações típicas: vídeo-conferências, telefonia IP, etc...</li>
+<li>Suporta sessões <em>unicast</em> e <em>multicast</em>;</li>
+<li>Usa canais de dados (RTP) e um controlo de canal (RTCP);</li>
+<li>RTCP (<em>Real Time Control Protocol</em>) reporta o estado do canal de dados;</li>
+</ul>
+<p><img src="images/rtp_stack.png" alt="image Exemplo" /></p>
+<ul>
+<li><strong>Sessão RTP</strong>: \( canal\ de\ dados + canal\ de\ controlo \);</li>
+<li><strong>Endereço de Sessão</strong>: endereço de rede (<em>unicast</em>, <em>multicast</em>), par de portas;</li>
+<li><strong>Canal RTCP</strong>: \( Porta\ RTP + 1 \);</li>
+<li>Na presença de múltiplas <em>streams</em> mídia, cada uma transmitida numa sessão separada ou misturadas numa sessão singular em cada direção, dependendo nos <em>codecs</em>.</li>
+</ul>
+<p><img src="images/flow_rtp_rtcp.png" alt="image RTP e RTCP" /></p>
+<ul>
+<li>Problemas RTP:
+<ul>
+<li>Não faz reservas, não apresenta garantias de QoS;</li>
+<li>Não garante a entrega de <em>packets</em>.</li>
+<li>Não providencia nenhum mecanismo que garanta a entrega atempada de <em>packets</em>;
+<ul>
+<li>Os <em>routers</em> devem providenciar serviços de entrega diferentes, mas não há garantias que os <em>packets</em> RTP cheguem ao destino de forma atempada.</li>
+</ul>
+</li>
+<li>O encapsulamento RTP só é visto em <em>end-systems</em> e não por <em>routers</em> intermédios;</li>
+<li>Permite a reconstrução temporal, a deteção de perdas e identificação de conteúdos.</li>
+</ul>
+</li>
+</ul>
+<p>A parte do RTCP está toda abordada em <strong>Multimedia Networking II</strong>.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="protocolos-de-transporte---desenvolvimentos-recentes"><a class="header" href="#protocolos-de-transporte---desenvolvimentos-recentes">Protocolos de Transporte - Desenvolvimentos Recentes</a></h1>
+<h2 id="stream-control-transmission-protocol-sctp"><a class="header" href="#stream-control-transmission-protocol-sctp"><em>Stream Control Transmission Protocol</em> (SCTP)</a></h2>
+<h3 id="motivação-1"><a class="header" href="#motivação-1">Motivação</a></h3>
+<ul>
+<li>Fiabilidade, mas sem ordenação;</li>
+<li>Fiabilidade, mas não é orientado à <em>stream</em>;</li>
+<li>Mais escalabilidade e redundância (<em>multihoming</em>);</li>
+<li>Mais robusto (contra ataques).</li>
+</ul>
+<p>Basicamente, quando comparado ao TCP, tem como objetivo melhorar o desempenho e robustez do transporte.</p>
+<h3 id="introdução-1"><a class="header" href="#introdução-1">Introdução</a></h3>
+<ul>
+<li>Tal como o TCP, providencia transferências fiáveis, em <em>full-duplex</em> e <em>unicast</em>;</li>
+<li>Ao contrário do TCP e do UDP, oferece novas opções de entrega que são particularmente desejáveis para sinalização de telefonia e aplicações multimédia.</li>
+</ul>
+<h3 id="objetivos"><a class="header" href="#objetivos">Objetivos</a></h3>
+<ul>
+<li>Mantém as retransmissões fiáveis do TCP, congestão de controlo e orientadas à conexão, mais:
+<ul>
+<li><em>framing</em> - preserva as barreiras das mensagens;</li>
+<li><em>4-way handshake</em> - para reduzir a vulnerabilidade a ataques DoS;</li>
+<li><em>multistreaming</em> - até 64 mil <em>streams</em> independentes ordenadas;</li>
+<li><em>multihoming</em> - ao invés de um endereço IP por <em>endpoint</em>, utiliza um conjunto de endereços IP por <em>endpoint</em>.
+<ul>
+<li>O SCTP utiliza o <em>multihoming</em> para redundância e não para balanceamento de carga.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="associação"><a class="header" href="#associação">Associação</a></h3>
+<ul>
+<li>A combinação entre uma porta SCTP e um endereço IP define o &quot;<em>SCTP Transport Address</em>&quot;;</li>
+<li>Um <em>endpoint</em> SCTP:
+<ul>
+<li>é o fim lógica de um protocolo de transporte SCTP - uma <em>party</em> de comunicação;</li>
+<li>Pode ter mais do que um endereço IP, mas terá sempre uma única porta;
+<ul>
+<li><code>endpoint = [10.1.4.2, 10.1.5.3:80]</code>.</li>
+</ul>
+</li>
+<li>Em SCTP, a relação de comunicação entre dois <em>endpoints</em> é denominada associação.
+<ul>
+<li><code>association = {[10.1.61.11:2223], [10.1.4.2, 10.1.5.3:80]}</code>.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="framing"><a class="header" href="#framing"><em>Framing</em></a></h3>
+<ul>
+<li>Mantém os limites de uma mensagem, uma mensagem aplicacional é mantida como um mais <em>chunks</em> de dados;</li>
+<li>O objetivo é melhorar o desempenho removendo o <em>blocking</em> nos dados recebidos, quer seja devido ao <em>delay</em> ou devido à perda.</li>
+<li>Separação da entrega fiável e ordenada;
+<ul>
+<li>Permitir a entrega não ordenada elimina o <em>delay head-of-line</em>;</li>
+</ul>
+</li>
+<li>As aplicações podem querer unidades de dados lógicas (<em>chunks</em>);</li>
+<li>Ver os dados como uma <em>byte stream</em> é ineficiente;</li>
+<li>Preserva o <em>Application Level Framing</em>;
+<ul>
+<li>Cada envio/leitura é um <em>chunk</em> (isto é, uma unidade de dados da aplicação).</li>
+</ul>
+</li>
+</ul>
+<p><img src="images/sctp_framing.png" alt="image Framing" /></p>
+<h3 id="packets"><a class="header" href="#packets"><em>Packets</em></a></h3>
+<ul>
+<li>Cabeçalho comum com três funções básicas:
+<ul>
+<li>Portas de fonte e destino, usadas em conjunto com os endereços IP e outra informação de estado para identificar a associação (conexão);</li>
+<li>Etiqueta de verificação aleatória e negociada no <code>init</code>;</li>
+<li><em>Checksum</em>: CRC32 no <em>packet</em> SCTP total.</li>
+</ul>
+</li>
+<li>Seguida por um o mais <em>chunks</em>;
+<ul>
+<li><em>Chunks</em> são blocos de construção concatenados contendo dados de controlo ou de informação;</li>
+<li>O cabeçalho de um <em>chunk</em> identifica o seu tamanho, ou seu tipo e qualquer <em>flag</em> especial;</li>
+<li><em>Chunks</em> de controlo transferem informação necessária para a funcionalidade de associação e <em>chunks</em> de dados carregam a camada de dados da aplicação;</li>
+<li>O RFC atual especifica 14 <em>chunks</em> de controlo diferentes para o estabelecimento de associação, terminação, ACK, recuperação de falhas no destino, ECN e <em>reporting</em> de erros.</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-way-handshake"><a class="header" href="#4-way-handshake"><em>4-way handshake</em></a></h3>
+<p><img src="images/4way_handshake_1.png" alt="image Exemplo1" /></p>
+<p><img src="images/4way_handshake_2.png" alt="image Exemplo2" /></p>
+<h3 id="multistreaming-sctp"><a class="header" href="#multistreaming-sctp"><em>Multistreaming</em> SCTP</a></h3>
+<ul>
+<li>O TCP providencia transporte para uma <em>stream</em> de dados singular;</li>
+<li>O SCTP permite múltiplas <em>streams</em> independentes por associação.</li>
+</ul>
+<p><img src="images/sctp_multistreaming.png" alt="image Multistreaming" /></p>
+<ul>
+<li>Separação lógica dos dados numa assoicação;</li>
+<li>Desenhada para prevenir o <em>head-of-line blocking</em>;</li>
+<li>Pode ser usada para entregar múltiplos objetos dentro da mesma associação.</li>
+</ul>
+<h3 id="multihoming-sctp"><a class="header" href="#multihoming-sctp"><em>Multihoming</em> SCTP</a></h3>
+<p><img src="images/sctp_multihoming.png" alt="image Multihoming" /></p>
+<ul>
+<li>É capaz de gerir múltiplos cenários com múltiplos endereços IP de fonte e destino (interfaces com e sem cabo, múltiplos ISPs, etc...)</li>
+</ul>
+<p><img src="images/sctp_multihoming2.png" alt="image Multihoming2" /></p>
+<ul>
+<li>
+<p>Os <em>hosts</em> escolhem 1 das 4 possíveis conexões TCP:</p>
+<ul>
+<li><code>{(A1, B1), (A1, B2), (A2, B1), (A2, B2)}</code>;</li>
+</ul>
+</li>
+<li>
+<p><em>Hosts</em> usam 1 associação sctp:</p>
+<ul>
+<li><code>({A1, A2}, {B1, B2})</code>;</li>
+<li>Destino primário selecionável;</li>
+<li>Envia novos dados para o destino primário;</li>
+<li>Monitoriza o estado do caminho e o seu alcance (<em>heartbeats</em>).</li>
+</ul>
+</li>
+<li>
+<p>Conexão TCP \( \Leftrightarrow \) Associação SCTP</p>
+<ul>
+<li>2 endereços IP, 2 números de portas \( \Leftrightarrow \) 2 conjuntos de endereços IP, 2 números de portas;</li>
+<li>Um <em>flow</em> comum e um mecanismos de congestão de controlo é mantido de forma a reduzir o <em>overhead</em>;</li>
+</ul>
+</li>
+<li>
+<p><strong>Objetivo</strong>: robustez</p>
+<ul>
+<li>Automaticamente, troca os endereços IP dos <em>hosts</em> até falhar;</li>
+<li>Elimite o efeito de longos períodos de tempo para a reconvergência do <em>routing</em>.</li>
+</ul>
+</li>
+<li>
+<p><strong>TCP</strong>: não garante que a mensagens permaneçam &quot;vivas&quot; quando a conexão está <em>idle</em>;</p>
+</li>
+<li>
+<p><strong>SCTP</strong>: monitoriza o alcance de cada destino através de <code>ACKs</code> de:</p>
+<ul>
+<li><em>Chunks</em> de dados;</li>
+<li><em>Chunks</em> de <em>heartbeat</em>;</li>
+</ul>
+</li>
+</ul>
+<h3 id="comparado-a-outros-protocolos"><a class="header" href="#comparado-a-outros-protocolos">Comparado a Outros Protocolos</a></h3>
+<p><img src="images/sctp_comparison.png" alt="image Comparação" /></p>
+<h2 id="quic"><a class="header" href="#quic">QUIC</a></h2>
+<h3 id="motivação-2"><a class="header" href="#motivação-2">Motivação</a></h3>
+<ul>
+<li>Necessidade de providenciar uma entrega rápida e <em>rendering</em> ao nível da aplicação;</li>
+<li>Pretende resolver resolver os problemas do TCP tendo uma motivação semelhante ao SCTP, permitindo:
+<ul>
+<li>Remoção do <em>HOL blocking</em>;</li>
+<li>Multiplexando diferentes <em>streams</em>;</li>
+<li>Aumentando a segurança.</li>
+</ul>
+</li>
+</ul>
+<p><img src="images/quic_stack.png" alt="image Stack" /></p>
+<h3 id="princípios"><a class="header" href="#princípios">Princípios</a></h3>
+<ul>
+<li>Providencia aplicação com <em>streams</em> de <em>flow</em> controlado para comunicação estruturada, com um estabelecimento de conexão com baixa latência e migração do caminho rede;</li>
+<li>Inclui medidas de segurança que garantem a confidencialidade, a integridade e a disponibilidade baseada no TLS;</li>
+<li>Corre em cima do TLS/UDP, implementando o controlo de congestão;</li>
+<li>É um protocolo orietando à conexão que cria uma interação com estado entre o cliente e o servidor.</li>
+</ul>
+<h3 id="operação"><a class="header" href="#operação">Operação</a></h3>
+<ul>
+<li>O <em>handshaking</em> combina a negociação entre parâmetros de transporte e criptográficos (com baixas preocupações RTT);</li>
+<li>Os <em>endpoints</em> comunicam trocando <em>packets</em> QUIC;</li>
+<li>Os <em>packets</em> contêm <em>frames</em> que carregam informação de controlo e dados da aplicação entre <em>endpoints</em>;</li>
+<li>Protocolos da aplicação enviam dados através de uma conexão QUIC via <em>streams</em> que são sequências ordenadas de <em>bytes</em>;</li>
+<li>As <em>streams</em> podem ser bi-direcionais ou uni-direcionais (apenas um <em>endpoint</em> pode enviar dados);</li>
+<li>O controlo de <em>flow</em> baseia-se num esquema baseado em créditos para limitar a crianção de <em>streams</em> e limitar a quantidade de dados que podem ser enviados;</li>
+<li>Providencia o <em>feedback</em> necessário para implementar uma entrega fiável e congestão de controlo;</li>
+<li>Migração de caminhos, as conexões não estão estritamente presas a um único caminho na rede. O cliente pode migrar para um novo caminho, se disponível (precisa de <em>probing</em> e de <em>path validation</em>).</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript">
+        window.addEventListener('load', function() {
+            MathJax.Hub.Register.StartupHook('End', function() {
+                window.setTimeout(window.print, 100);
+            });
+        });
+        </script>
+    </body>
+</html>

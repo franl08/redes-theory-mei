@@ -1,0 +1,701 @@
+<!DOCTYPE HTML>
+<html lang="pt" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Multimedia Networking II - Teóricas de ESR</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="chapter_1.html"><strong aria-hidden="true">1.</strong> Introdução</a></li><li class="chapter-item expanded "><a href="chapter_2.html"><strong aria-hidden="true">2.</strong> Camada Aplicacional</a></li><li class="chapter-item expanded "><a href="chapter_3.html"><strong aria-hidden="true">3.</strong> Distribuição de Ficheiros em P2P e Streaming</a></li><li class="chapter-item expanded "><a href="chapter_4.html"><strong aria-hidden="true">4.</strong> Programação com Sockets e Multicast I</a></li><li class="chapter-item expanded "><a href="chapter_5.html"><strong aria-hidden="true">5.</strong> Multicast II</a></li><li class="chapter-item expanded "><a href="chapter_6.html"><strong aria-hidden="true">6.</strong> Multimedia Networking I</a></li><li class="chapter-item expanded "><a href="chapter_7.html" class="active"><strong aria-hidden="true">7.</strong> Multimedia Networking II</a></li><li class="chapter-item expanded "><a href="chapter_8.html"><strong aria-hidden="true">8.</strong> Signaling Protocols (SIP - Session Initiation Protocol)</a></li><li class="chapter-item expanded "><a href="chapter_9.html"><strong aria-hidden="true">9.</strong> Protocolos de Transporte RTP/RTCP</a></li><li class="chapter-item expanded "><a href="chapter_10.html"><strong aria-hidden="true">10.</strong> Protocolos de Transporte - Desenvolvimentos Recentes</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Teóricas de ESR</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="multimedia-networking-ii"><a class="header" href="#multimedia-networking-ii">Multimedia Networking II</a></h1>
+<h2 id="multimedia-networking"><a class="header" href="#multimedia-networking"><em>Multimedia Networking</em></a></h2>
+<h3 id="udp"><a class="header" href="#udp">UDP</a></h3>
+<ul>
+<li>Servidor envia a uma taxa apropriada para o cliente;
+<ul>
+<li>geralmente, a taxa de envio é igual à taxa de <em>encoding</em>, à taxa constante e à taxa de consumo;</li>
+<li>a taxa de transmissão pode não querer saber de níveis de congestão.</li>
+</ul>
+</li>
+<li>Tem um pequeno <em>playout delay</em> (1 a 2 segundos) para remover o <em>jitter</em> da rede;</li>
+<li>Recuperação de erros: ao nível da aplicação.</li>
+<li><strong>Inconvenientes</strong>:
+<ul>
+<li>Precisa de um controlo adicional;</li>
+<li>O ajuste da qualidade do vídeo, ou seja, a adaptação do débito, terá de ser feito pela aplicação em si;</li>
+<li>Pode não conseguir passar <em>firewalls</em> (certas <em>middleboxes</em> podem bloquear o tráfego UDP, visto este não dar qualquer garantia)</li>
+<li>É mais difícil de desenvolver para aplicações em larga escala;</li>
+</ul>
+</li>
+</ul>
+<h3 id="http"><a class="header" href="#http">HTTP</a></h3>
+<ul>
+<li>Corre sobre TCP;
+<ul>
+<li>Terá todos os mecanismos de controlo de congestão e fluxo do TCP.</li>
+</ul>
+</li>
+<li>Obtém o conteúdo através de pedidos <code>HTTP GET</code>;</li>
+<li>Envia à taxa possível máxima em TCP;</li>
+<li>A taxa de enchimento irá flutuar devido aos mecanismos de controlo de congestão do TCP e às suas retransmissões;</li>
+<li>Se a taxa de consumo for menos que a taxa de receção:
+<ul>
+<li>providencia uma entrega TCP <em>smooth</em>.</li>
+</ul>
+</li>
+<li>Se a taxa de consumo for maior:
+<ul>
+<li>o <em>buffer</em> será &quot;drenado&quot; e o vídeo irá entrar em <em>freeze</em>.</li>
+</ul>
+</li>
+</ul>
+<p><img src="images/streaming_http.png" alt="image Diagrama de Streaming HTTP" /></p>
+<ul>
+<li>De notar que quando o cliente remover <em>f bits</em>, irá criar espaço para novos <em>f bits</em> no <em>buffer</em> da aplicação do cliente, o que permitirá que o servidor envie <em>f bits</em> adicionais;</li>
+<li>A taxa de envio do servidor não poderá ser maior que a taxa de consumo no cliente. Assim, o comportamento do cliente poderá condicionar o envio de dados por parte do servidor;</li>
+<li>O DASH assume um comportamento semelhante ao HTTP, no entanto, é adaptativo.</li>
+<li><strong>Vantagens</strong>:
+<ul>
+<li>Não precisa de um <em>media control server</em>;</li>
+<li>Permite o vídeo <em>termination</em> e <em>repositioning</em>;</li>
+<li>Não tem problemas com <em>firewalls</em>;</li>
+<li>Melhor para desenvolvimento em larga escala.</li>
+</ul>
+</li>
+</ul>
+<h3 id="voice-over-ip-voip"><a class="header" href="#voice-over-ip-voip"><em>Voice-over-IP</em> (VoIP)</a></h3>
+<ul>
+<li>Particularmente sensível a variações de atrasos e menos sensível a perdas;</li>
+<li>O principal requisito é a necessidade de manter o aspeto conversacional;
+<ul>
+<li>Grandes <em>delays</em> são fáceis de notar;</li>
+<li><em>pings</em> menores a 150 <em>msec</em> são bons;</li>
+<li><em>pings</em> maiores que 300 <em>msec</em> são maus;</li>
+<li>Inclui o nível da aplicação;</li>
+</ul>
+</li>
+<li>Trabalha com base nos <em>talk spurt</em> (períodos de fala);
+<ul>
+<li>Ou seja, o tráfego é enviado a cada \( 20ms \),</li>
+</ul>
+</li>
+<li>Adiciona um cabeçalho da camada de aplicação a cada <em>chunk</em>;</li>
+<li>Encapsula o <em>chunk</em> e o cabeçalho em UDP (ou segmentos TCP);</li>
+<li>A aplicação irá enviar segumentos para o <em>socket</em> a cada \( 20ms \) durante o <em>talk spurt</em>.</li>
+</ul>
+<h4 id="packet-loss-e-delay"><a class="header" href="#packet-loss-e-delay"><em>Packet Loss</em> e <em>Delay</em></a></h4>
+<ul>
+<li>Faz <em>recall</em>, por <em>default</em>: o IP providencia um serviço de melhor esforço;</li>
+<li><em>Network loss</em>: datagrama IP perdida devido à congestão da rede (<em>buffer</em> do <em>router</em> deu <em>overflow</em>);</li>
+<li><em>Delay loss</em>: datagrama IP chega demasiado tarde para o <em>playout</em> do recetor:
+<ul>
+<li><em>delays</em>: a processar, em <em>queue</em> na rede, <em>delays</em> no <em>end-system</em> (emissor, recetor);</li>
+<li><em>delay</em> máximo tolerável, tipicamente: \( 300ms \);</li>
+<li>um <em>packet</em> atrasado é um <em>packet</em> perdido.</li>
+</ul>
+</li>
+<li>Tolerância a perdas: depende do <em>encoding</em> de voz e da ocultação de perdas. Para perda de <em>packets</em> a taxa entre 1% e 10% pode ser tolerada.</li>
+</ul>
+<h4 id="delay-jitter"><a class="header" href="#delay-jitter"><em>Delay Jitter</em></a></h4>
+<p>Os <em>delays end-to-end</em> para dois <em>packets</em> consecutivos: a diferença pode ser mais ou menos que \( 20ms \) (diferença do tempo de transmissão).</p>
+<p><img src="images/delay_jitter.png" alt="image Delay Jitter" /></p>
+<h4 id="delay-de-playout-fixo"><a class="header" href="#delay-de-playout-fixo"><em>Delay</em> de <em>playout</em> fixo</a></h4>
+<ul>
+<li>Quando iniciar o <em>playout</em>?
+<ul>
+<li>Recetor tenta dar <em>playout</em> de cada <em>chunk</em> exatamente \( q\ ms \) após o <em>chunk</em> ser gerado;
+<ul>
+<li>o <em>chunk</em> tem <em>timestamp</em> \( t \): <em>playout</em> do <em>chunk</em> em \( t+q \);</li>
+<li><em>chunk</em> chega depois de \( t+q \): dados que chegam tarde para o <em>playout</em> são considerados dados perdidos.</li>
+</ul>
+</li>
+<li><em>Trade-off</em> ao escolher o valor de \( q \):
+<ul>
+<li>valor alto de \( q \): perdem-se menos <em>packets</em>;</li>
+<li>valor baixo de \( q \): melhor experiência interativa.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>O emissor irá enviar pacotes a cada \( 20ms \) durante o <em>talk spurt</em>.
+<ul>
+<li>O primeiro <em>packet</em> irá chegar no tempo \( r \);</li>
+<li>O primeiro <em>playout</em> iniciará a \( p \);</li>
+<li>O segundo <em>playout</em> iniciará a \( p' \).</li>
+</ul>
+</li>
+</ul>
+<p><img src="images/fixed_playout_delay.png" alt="image Exemplo" /></p>
+<h4 id="delay-de-playout-adaptativo"><a class="header" href="#delay-de-playout-adaptativo"><em>Delay</em> de <em>playout</em> adaptativo</a></h4>
+<ul>
+<li><strong>Objetivo</strong>: ter um baixo <em>delay</em> de <em>playout</em> e baixa taxa de perda;</li>
+<li><strong>Abordagem</strong>: ajuste adaptativo do <em>delay</em> de <em>playout</em>:
+<ul>
+<li>Estimar o delay da rede, ajustar o <em>delay</em> de <em>playout</em> no início de cada <em>talk spurt</em>;</li>
+<li>Períodos silenciosos são comprimidos e alongados;</li>
+<li><em>Chunks</em> continuam a ser reproduzidos a cada \( 20ms \) durante o <em>talk spurt</em>.</li>
+</ul>
+</li>
+<li>Adaptativamente, estima o <em>delay</em> do <em>packet</em>: (EWMA: <em>exponentially weighted moving average</em>, estimativa para o <em>recall</em> TCP RTT):</li>
+</ul>
+<p>\[ d_i = (1 - \alpha)d_{i - 1} + \alpha(r_i - t_i) \]</p>
+<ul>
+<li>
+<p>Onde:</p>
+<ul>
+<li>\( d_i \): representa o <em>delay</em> estimado após o pacote \( i \);</li>
+<li>\( \alpha \): pequena constante, por exemplo, \( 0.1 \);</li>
+<li>\( r_i \): tempo recebido;</li>
+<li>\( t_i \): tempo enviado (<em>timestamp</em>);</li>
+<li>\( (r_i - t_i) \): <em>delay</em> medido para o pacote \( i \).</li>
+</ul>
+</li>
+<li>
+<p>Também é útil para estimar a média do desvio do <em>delay</em>, \( v_i \):</p>
+</li>
+</ul>
+<p>\[ v_i = (1 - \beta)v_{i-1} + \beta|r_i - t_i - d_i| \]</p>
+<ul>
+<li>Estima \( d_i \), calcula \( v_i \) a cada <em>packet</em> recebido, mas apenas é utilizado no início do <em>talk spurt</em>;</li>
+<li>Para o primeiro <em>packet</em> no <em>talk spurt</em>, o <em>playout time</em> é_</li>
+</ul>
+<p>\[ playout\ time_i = t_i + d_i + Kv_i \]</p>
+<ul>
+<li>Os restantes <em>packets</em> no <em>talk spurt</em> são reproduzidos de forma periódica.</li>
+<li>Como é que um recetor determina se um <em>packet</em> é o primeiro num <em>talk spurt</em>?
+<ul>
+<li>se não existirem perdas, o recetor olha para as <em>timestamps</em> consecutivas;
+<ul>
+<li>se a diferença entre <em>timestamps</em> consecutivas for superior a \( 20ms \), indica que o <em>talk spurt</em> iniciou.</li>
+</ul>
+</li>
+<li>com possíveis perdas, o recetor deve olhar para as <em>timestamps</em> e para os números de sequência.
+<ul>
+<li>se a diferença entre <em>timestamps</em> consecutivas for superior a \( 20ms \) e o número de sequência não tem falhas, indica que o <em>talk spurt</em> iniciou.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="recuperar-de-uma-perda-de-um-packet"><a class="header" href="#recuperar-de-uma-perda-de-um-packet">Recuperar de uma perda de um <em>packet</em></a></h4>
+<ul>
+<li><strong>Desafio</strong>: recuperar da perda do pacote dando um pequeno <em>delay</em> tolerável entre a transmissão original e o <em>playout</em>.
+<ul>
+<li>Cada ACK/NAK demora cerca de um RTT;</li>
+<li>Alternativa: <em><strong>Forward Error Correction (FEC)</strong></em>.
+<ul>
+<li>Envia <em>bits</em> suficientes para permitir uma recuperação sem retransmissão.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>FEC Simples</strong>:
+<ul>
+<li>Para cada grupo de \( n \) <em>chunks</em>, cria um <em>chunk</em> redundante para utilizar <code>OR</code>-exclusivos com <code>n</code> <em>chunks</em> originais;</li>
+<li>Envia \( n + 1 \) <em>chunks</em>, aumentando a largura de banda por um fator \( \frac{1}{n} \);</li>
+<li>Pode reconstruir \( n \) <em>chunks</em> originais se perder nmo máximo um <em>chunk</em> dos \( n+1 \) <em>chunks</em> com o <em>delay</em> de <em>playout</em>.</li>
+</ul>
+</li>
+<li><strong>Outro esquema FEC</strong>:
+<ul>
+<li>&quot;<em>piggyback lower quality stream</em>&quot;;</li>
+<li>Envia <em>streams</em> de áudio em baixa resolução como informação redundante;</li>
+<li>Perdas não consecutivas: recetor pode esconder a perda;</li>
+<li>Generalização: também pode dar <em>append</em> do (\( n-1 \))º e (\( n-2 \))º menor bit da taxa de <em>chunk</em>.</li>
+</ul>
+</li>
+</ul>
+<p><img src="images/fec_scheme.png" alt="image Esquema FEC" /></p>
+<ul>
+<li><strong><em>Interleaving</em> para esconder a perda</strong>:
+<ul>
+<li><em>Chunks</em> de áudio são divididos em unidades mais pequenas;</li>
+<li><em>Packets</em> contêm pequenas unidades de diferentes <em>chunks</em>;</li>
+<li>Se um <em>packet</em> é perdido, continuar-se-á a ter grande parte do <em>chunk</em> original;</li>
+<li>Não tem <em>overhead</em> de redundância, mas aumenta a latência e o <em>delay</em> de <em>playout</em>.</li>
+</ul>
+</li>
+</ul>
+<h4 id="skype"><a class="header" href="#skype"><em>Skype</em></a></h4>
+<ul>
+<li>Tem uma protocolo de camada aplicacional proprietário que foi inferido através de <em>reverse engineering</em>;
+<ul>
+<li>Mensagens encriptadas.</li>
+</ul>
+</li>
+<li>Componentes:
+<ul>
+<li><strong>Clientes</strong>: <em>Peers</em> do <em>Skype</em> conectam-se diretamente uns aos outros através de chamadas VoIP;</li>
+<li><strong>Super-Nodos (SN)</strong>: <em>Peers</em> do <em>Skype</em> com funções especiais;</li>
+<li><strong>Rede de <em>Overlay</em></strong>: Entre os SNs para localizar os SCs;</li>
+<li><em><strong>Login Server</strong></em>.</li>
+</ul>
+</li>
+</ul>
+<p><img src="images/skype.png" alt="image Skype" /></p>
+<ul>
+<li><strong>Operação do Cliente</strong>:
+<ul>
+<li>Junta-se à rede do <em>Skype</em> ao contactar o SN (endereço IP em <em>cache</em>) utilizando TCP;</li>
+<li>Efetua o <em>login</em> para o servidor centralizado de <em>login</em> do <em>Skype</em>;</li>
+<li>Obtém o endereço IP para o outro interveniente através do SN e do seu overlay;
+<ul>
+<li>Ou a lista dos amigos do cliente.</li>
+</ul>
+</li>
+<li>Inicia a chamada diretamente com o outro interveniente.</li>
+</ul>
+</li>
+</ul>
+<h5 id="peers-como-relays"><a class="header" href="#peers-como-relays"><em>Peers</em> como <em>relays</em></a></h5>
+<p><img src="images/relays_skype.png" alt="image Peers como Relays" /></p>
+<ul>
+<li><strong>Problema</strong>: tanto a Alice, como o Bob estão atrás de NATs.
+<ul>
+<li>O NAT não permite que o <em>outside peer</em> inicie uma conexão com o <em>insider peer</em>;</li>
+<li>O <em>insider peer</em> pode iniciar uma conexão com o exterior!</li>
+</ul>
+</li>
+<li><strong>Solução <em>Relay</em></strong>: a Alice e o Bob mantêm uma conexão aberta com os seus SNs.
+<ul>
+<li>A Alice sinaliza o seu SN para se conectar ao Bob;</li>
+<li>O SN da Alice conecta-se ao SN do Bob;</li>
+<li>O SN do Bob conecta-se ao Bob através da conexão aberta que o Bob, anteriormente, iniciou com o seu SN.</li>
+</ul>
+</li>
+</ul>
+<h3 id="real-time-protocol-rtp"><a class="header" href="#real-time-protocol-rtp"><em>Real-Time Protocol</em> (RTP)</a></h3>
+<ul>
+<li>Especifica a estrutura de <em>packets</em> com dados de áudio ou vídeo;</li>
+<li>RFC 3550;</li>
+<li><em>Packet</em> RTP providenciam:
+<ul>
+<li>identificação do tipo de <em>payload</em>;</li>
+<li>numeração da sequência do <em>packet</em>;</li>
+<li><em>Time stamping</em>.</li>
+</ul>
+</li>
+<li>Corre em <em>end systems</em>;</li>
+<li>Os <em>packets</em> são encapsulados em segmentos UDP;</li>
+<li>Interoperabilidade: se duas aplicação VoIP correm RTP, então elas devem poder trabalhar em conjunto.</li>
+</ul>
+<h4 id="corre-em-cima-de-udp"><a class="header" href="#corre-em-cima-de-udp">Corre em cima de UDP</a></h4>
+<p>As bibliotecas de RTP providenciam uma interface para a camada de transporte que extende o UDP:</p>
+<ul>
+<li>Número de portas e endereços IP;</li>
+<li>Identificação do tipo de <em>payload</em>;</li>
+<li>Numeração da sequência do pacote;</li>
+<li><em>Time stamping</em>.</li>
+</ul>
+<h4 id="rtp-e-qos"><a class="header" href="#rtp-e-qos">RTP e QoS</a></h4>
+<ul>
+<li>O RTP não providencia qualquer mecanismo para garantir a entrega atempada dos dados ou qualquer outra garantia QoS;</li>
+<li>O encapsulamento RTP só é visto nos <em>end systems</em> (não nos <em>routers</em> intermédios).
+<ul>
+<li><em>Routers</em> providenciam um serviço de melhor esforço, não fazendo um esforço especial para garantir que os <em>packets</em> RTP chegam ao destino de forma atempada.</li>
+</ul>
+</li>
+</ul>
+<h4 id="cabeçalho"><a class="header" href="#cabeçalho">Cabeçalho</a></h4>
+<p><img src="images/rtp_header.png" alt="image Cabeçalho RTP" /></p>
+<ul>
+<li><strong>Tipo de <em>payload</em></strong> (7 <em>bits</em>): indica o tipo de <em>encoding</em> a ser utilizado no momento. Se o emissor alterar o <em>encoding</em> durante a chamada, o <em>emissor</em> irá informar dessa troca através deste campo.
+<ul>
+<li><em>Payload type 0</em>: PCM mu-law, \( 64Kbps \);</li>
+<li><em>Payload type 3</em>: GSM, \( 13Kbps \);</li>
+<li><em>Payload type 7</em>: LPC, \( 2.4Kbps \);</li>
+<li><em>Payload type 26</em>: Motion JPEG;</li>
+<li><em>Payload type 31</em>: H.261;</li>
+<li><em>Payload type 33</em>: MPEG2 video.</li>
+</ul>
+</li>
+<li><strong>Número de Sequência</strong> (16 <em>bits</em>): incrementa em 1 a cada <em>packet</em>RTP enviado;
+<ul>
+<li>Deteta a perda a de pacotes, restaura a sequência de pacotes.</li>
+</ul>
+</li>
+<li><em><strong>Timestamp</strong></em> (32 <em>bits</em>): instante do primeiro <em>byte</em> neste <em>packet</em> de dados RTP;
+<ul>
+<li>Para o áudio, o <em>timestamp clock</em> incrmenta em um por cada período de amostragem;</li>
+<li>Se a aplicação gerar <em>chunks</em> de 160 amostras <em>encoded</em>, o <em>timestamp</em> será incrementado em 160 por cada RTP <em>packet</em> quando a fonte está ativa. O <em>timestamp clock</em> continua a crescer a um ritmo constante quando a fonte está inativa.</li>
+</ul>
+</li>
+<li><strong>SSRC</strong> (32 <em>bits</em>): identifica a fonte da <em>stream</em> RTP. Cada <em>stream</em> na sessão RTP tem um SSRC distinto.</li>
+</ul>
+<h4 id="programação-com-rtsprtp"><a class="header" href="#programação-com-rtsprtp">Programação com RTSP/RTP</a></h4>
+<ul>
+<li>Constrói um servidor que encapsula <em>frames</em> de vídeo armazenadas em <em>packets</em> RTP;
+<ul>
+<li>Pega no <em>frame</em> do vídeo, adiciona cabeçalhos RTP, cria segmentos UDP, envia segmentos para o <em>socket</em> UDP;</li>
+<li>Inclui números de sequência e <em>timestamps</em>;</li>
+<li>É providenciado um cliente RTP.</li>
+</ul>
+</li>
+<li>Escreve o lado do cliente no do RTSP.
+<ul>
+<li>Comandos de <em>play</em>/<em>pause</em>;</li>
+<li>É providenciado um servidor RTSP.</li>
+</ul>
+</li>
+</ul>
+<h3 id="real-time-control-protocol-rtcp"><a class="header" href="#real-time-control-protocol-rtcp"><em>Real-Time Control Protocol</em> (RTCP)</a></h3>
+<ul>
+<li>Trabalha em conjunto com o RTP;</li>
+<li>Cada participante numa sessão RTP, de forma periódica, envia <em>packets</em> de controlo para todos os outros participantes;</li>
+<li>Cada <em>packet</em> RTCP contém o emissor e/ou os <em>reports</em> do recetor;
+<ul>
+<li>As estatísticas dos <em>reports</em> são úteis para as aplicações:
+<ul>
+<li>Número de <em>packets</em> enviados;</li>
+<li>Número de <em>packets</em> perdidos;</li>
+<li><em>Interarrival jitter</em>.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><em>Feedback</em> utilizado para controlar o desempenho.
+<ul>
+<li>Emissor pode modificar as suas transmissões baseando-se no <em>feedback</em>.</li>
+</ul>
+</li>
+</ul>
+<h4 id="múltiplos-emissores-multicast"><a class="header" href="#múltiplos-emissores-multicast">Múltiplos emissores <em>multicast</em></a></h4>
+<ul>
+<li>Cada sessão RTP: tipicamente um endereço <em>multicast</em> singular e todos os <em>packets</em> RTP/RTCP pertencentes à sessão usam o endereço <em>multicast</em>;</li>
+<li><em>Packets</em> RTP e RTCP distinguidos dos restantes via números de portas distintas;</li>
+<li>De forma a limitar o tráfego, cada participante reduz o tráfego RTCP consoante o número de participantes aumenta.</li>
+</ul>
+<h4 id="tipos-de-packets"><a class="header" href="#tipos-de-packets">Tipos de <em>Packets</em></a></h4>
+<ul>
+<li><em>Receiver Report Packets</em>:
+<ul>
+<li>Fração de pacotes perdidos, último número de sequência, média do <em>interarrival jitter</em>.</li>
+</ul>
+</li>
+<li><em>Sender Report Packets</em>:
+<ul>
+<li>SSRC da <em>stream</em> RTP, tempo atual, número de pacotes enviados, número de <em>bytes</em> enviados.</li>
+</ul>
+</li>
+<li><em>Source Description Packets</em>:
+<ul>
+<li>Endereço de email do emissor, nome do emissor, SSRC da <em>stream</em> RTP a que está associado;</li>
+<li>Providencia o <em>mapping</em> entre o SSRC e o nome do <em>user</em>/<em>host</em>.</li>
+</ul>
+</li>
+</ul>
+<h4 id="sincronização-da-stream"><a class="header" href="#sincronização-da-stream">Sincronização da <em>Stream</em></a></h4>
+<ul>
+<li>RTCP pode sincronizar diferentes <em>streams</em> de mídias numa sessão RTP;</li>
+<li><em>Timestamps</em> em <em>packets</em> RTP estão presos ao vídeo, relógios de amostragem de áudi;
+<ul>
+<li>Não está preso ao tempo do relógio real.</li>
+</ul>
+</li>
+<li>Cada <em>sender-report</em> do RTCP contém (para os <em>packets</em> mais recentemente gerados numa <em>stream</em> RTP associada):
+<ul>
+<li><em>Timestamp</em> para o <em>packet</em> RTP;</li>
+<li>Tempo real para quando o <em>packet</em> foi criado.</li>
+</ul>
+</li>
+<li>Recetores utilizam a associação para sincronizar o <em>playout</em> do áudio ou do vídeo.</li>
+</ul>
+<h4 id="escalar-a-largura-de-banda"><a class="header" href="#escalar-a-largura-de-banda">Escalar a largura de banda</a></h4>
+<p>O RTCP tenta limitar o seu tráfego a 5% da largura de banda da sessão.</p>
+<h3 id="sip-session-initiation-protocol-rfc-3261"><a class="header" href="#sip-session-initiation-protocol-rfc-3261">SIP: <em>Session Initiation Protocol</em> (RFC 3261)</a></h3>
+<ul>
+<li>Visão a longo-termo:
+<ul>
+<li>Todas as chamadas telefónicas, vídeo-conferências são feitas na Internet;</li>
+<li>Pessoas são identificadas pelos nomes ou pelos endereços de email, ao invés de números de telemóvel;</li>
+<li>Pode chegar ao &quot;chamado&quot; (se ele assim o desejar), não interessando onde este está ou o tipo de dispositivo IP que está a usar.</li>
+</ul>
+</li>
+</ul>
+<h4 id="serviços"><a class="header" href="#serviços">Serviços</a></h4>
+<ul>
+<li>Providencia mecanismos para o <em>call setup</em>:
+<ul>
+<li>Para quem faz a chamada informar o recetor que pretende estabelecer a chamada;</li>
+<li>Para ambos concordarem qual o tipo mídia e o <em>encoding</em>;</li>
+<li>Para terminar uma chamada.</li>
+</ul>
+</li>
+<li>Determina o endereço IP do recetor da chamda:
+<ul>
+<li>Mapeia identificadores de mnemónica para o endereço IP atual.</li>
+</ul>
+</li>
+<li>Gestão de chamadas:
+<ul>
+<li>Adiciona novas <em>streams</em> de mídia durante a chamada;</li>
+<li>Altera o <em>encoding</em> durante as chamadas;</li>
+<li>Convida outros;</li>
+<li>Transfere e coloca <em>calls</em> em espera.</li>
+</ul>
+</li>
+</ul>
+<h4 id="iniciar-uma-chamada-para-um-endereço-ip-conhecido"><a class="header" href="#iniciar-uma-chamada-para-um-endereço-ip-conhecido">Iniciar uma chamada para um endereço IP conhecido</a></h4>
+<p><img src="images/sip_call.png" alt="image Chamada SIP" /></p>
+<ul>
+<li>Mensagem SIP de convite da Alice indica o número da sua porta, ou seu endereço IP e o <em>encoding</em> em que ela prefere receber dados;</li>
+<li>Mensagem <code>200OK</code> do Bob indica o número da sua porta, o seu endereço IP e o seu <em>enoding</em> preferido;</li>
+<li>Mensagens SIP podem ser enviadas por TCP ou UDP;
+<ul>
+<li>Neste exemplo, são enviadas por RTP/UDP.</li>
+</ul>
+</li>
+<li>A porta <em>default</em> do SIP é 5060.</li>
+<li>Negociação do <em>codec</em>:
+<ul>
+<li>Se o Bob não tiver um <em>encoder</em> para o pretendido pela Alice;</li>
+<li>Enviará a mensagem <code>606 Not Acceptable Reply, listing his encoders</code>. A Alice poderá enviar uma nova mensagem de <em>Invite</em> anunciando um diferente <em>encoder</em>.</li>
+</ul>
+</li>
+<li>Rejeitar uma chamada:
+<ul>
+<li>O Bob pode rejeitar a chamada com respostas de <em>busy</em>, <em>gone</em>, <em>payment required</em> ou <em>forbidden</em>.</li>
+</ul>
+</li>
+<li>A mídia pode ser enviada através de RTP ou de outro protocolo.</li>
+</ul>
+<h4 id="exemplo-de-mensagem"><a class="header" href="#exemplo-de-mensagem">Exemplo de Mensagem</a></h4>
+<p><img src="images/sip_message.png" alt="image Mensagem SIP" /></p>
+<ul>
+<li>Aqui, não se sabe o endereço IP do Bob;
+<ul>
+<li>Serão necessários servidores intermédios de SIP.</li>
+</ul>
+</li>
+<li>A Alice envia e recebe mensagens SIP utilizando a porta <em>default</em> do SIP, 5060;</li>
+<li>Especifica no cabeçalho o que envia e recebe mensagens SIP através de UDP.</li>
+</ul>
+<h4 id="translação-de-nomes-localização-do-utilizador"><a class="header" href="#translação-de-nomes-localização-do-utilizador">Translação de nomes, localização do utilizador</a></h4>
+<ul>
+<li>Queremos fazer uma chamada, mas só temos o nome ou o email do recetor;</li>
+<li>É preciso obter o endereço IP do <em>host</em> atual do recetor:
+<ul>
+<li>Utilizador movimenta-se;</li>
+<li>Protocolo DHCP;</li>
+<li>Utilizador tem dispositivos IP diferentes.</li>
+</ul>
+</li>
+<li>Resultado pode ser baseado em:
+<ul>
+<li>Altura do dia;</li>
+<li>Quem efetua a chamada;</li>
+<li>Estado do recetor da chamada (chamada enviada para o <em>voicemail</em> quando já se está a falar com alguém).</li>
+</ul>
+</li>
+</ul>
+<h4 id="registrar"><a class="header" href="#registrar"><em>Registrar</em></a></h4>
+<ul>
+<li>Função de registo no servidor SIP;</li>
+<li>Quando o Bob inicia o cliente SIP, o cliente envia uma mensagem <code>SIP REGISTER</code> para o <em>registrar server</em> do Bob;</li>
+<li>Mensagem de registo:</li>
+</ul>
+<p><img src="images/registrar_sip.png" alt="image Registrar Server" /></p>
+<h4 id="proxy"><a class="header" href="#proxy"><em>Proxy</em></a></h4>
+<ul>
+<li>Outra função do servidor SIP: <em>proxy</em>;</li>
+<li>A Alice envia mensagem de convite para o seu servidor <em>proxy</em>;
+<ul>
+<li>Contém o endereço <code>sip:bob@domain.com</code>;</li>
+<li><em>Proxy</em> responsável por fazer o <em>routing</em> das mensagens SIP para o recetor, possivelmente através de múltiplos servidores <em>proxy</em>;</li>
+</ul>
+</li>
+<li>O Bob irá responder de volta por todo o conjunto de <em>proxies</em> SIP;</li>
+<li>O <em>proxy</em> retornará a mensagem de resposta à Alice;
+<ul>
+<li>Contém o endereço IP do Bob.</li>
+</ul>
+</li>
+<li><em>Proxy</em> do SIP é análogo a um servidor de DNS local mais um <em>setup</em> de TCP.</li>
+</ul>
+<p><img src="images/sip_example.png" alt="image Exemplo" /></p>
+<h4 id="comparação-com-h323"><a class="header" href="#comparação-com-h323">Comparação com H.323</a></h4>
+<ul>
+<li>H.323:
+<ul>
+<li>outro protocolo de <em>signaling</em> para mídias interativos de tempo real;</li>
+<li>leque de protocolos completos e integralmente verificados para conferência multimédia: sinalização, registo, controlo de admissão, transporte e <em>codecs</em>;</li>
+<li>vem do ITU (telefonia).</li>
+</ul>
+</li>
+<li>SIP:
+<ul>
+<li>componente singular que trabalha com o RTP, mas não é obrigado a tal. Pode ser combinado com outros protocolos ou serviços:</li>
+<li>Vem do IEFT: tem muitos conceitos emprestado do HTTP;</li>
+<li>Usa o princípio KISS: <em>Keep It Simple Stupid</em>.</li>
+</ul>
+</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="chapter_6.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="chapter_8.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="chapter_6.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="chapter_8.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>
